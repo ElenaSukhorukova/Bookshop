@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   store :provider_settings, accessors: %i[full_name avatar_url], coder: JSON
 
-  attr_accessor :remember_token, :activation_token, :reset_token
+  # attr_accessor :remember_token, :activation_token, :reset_token
 
-  after_create :create_activate_digest
+  # after_create :create_activate_digest
 end

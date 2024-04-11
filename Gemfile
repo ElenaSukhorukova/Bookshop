@@ -16,6 +16,7 @@ gem "bootsnap", require: false
 
 gem "turbo-rails"
 gem "stimulus-rails"
+gem "slim-rails", '~> 3.6.2'
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", ">= 4.0.1"
@@ -35,7 +36,18 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem "figaro"
+  gem 'rubocop', '~> 1.40', require: false
+  gem 'rubocop-rails', '~> 2.17', require: false
+  gem 'rubocop-performance', '~> 1.15', require: false
+end
+
+group :test do
+  gem 'rubocop-rspec', '~> 2.16.0', require: false
   gem 'rspec-rails', '~> 6.1.0'
+  gem 'capybara'
+  gem 'selenium-devtools', '~> 0.122'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
