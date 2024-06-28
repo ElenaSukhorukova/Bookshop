@@ -1,0 +1,21 @@
+ru:
+  currency: ₽
+  name: Книжный магазин
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            password:
+              exclusion: не должен совпадать с вашим адресом электронной почты
+
+  api:
+    v1:
+      external:
+        store:
+          shop_window:
+            title: Витрина
+            greeting: Добро пожаловать в книжный магазин
+            goods: Наши товары
+
+

@@ -1,0 +1,22 @@
+- content_for :title do
+  | New user
+
+h1 New user
+
+= form_with url: users_path, model: @user do |f|
+  div
+    = render partial: 'shared/errors', locals: { model: @user }
+  div
+    = f.label :email, "Email"
+    = f.email_field :email
+  div
+    = f.label :password, "Pasword"
+    = f.password_field :password
+  div
+    = f.label :password_confirmation, "Pasword confirmation"
+    = f.password_field :password_confirmation
+  div
+    = f.submit
+
+div
+  = render 'shared/google_authentication'
