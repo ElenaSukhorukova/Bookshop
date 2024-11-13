@@ -9,7 +9,7 @@ class Rack::Attack
   # safelisting). It must implement .increment and .write like
   # ActiveSupport::Cache::Store
 
-  # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+  Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   ### Throttle Spammy Clients ###
 
@@ -59,6 +59,26 @@ class Rack::Attack
       # Normalize the email, using the same logic as your authentication process, to
       # protect against rate limit bypasses. Return the normalized email if present, nil otherwise.
       req.params['email'].to_s.downcase.gsub(/\s+/, "").presence
+    end
+  end
+
+
+  # Always allow requests from localhost
+  # (blocklist & throttles are skipped)
+  Rack::Attack.safelist('allow from localhost') do |req|
+    # Requests are allowed if the return value is truthy
+    '127.0.0.1' == req.ip || '::1' == req.ip
+  end
+
+  # Lockout IP addresses that are hammering your login page.
+  # After 20 requests in 1 minute, block all requests from that IP for 1 hour.
+  Rack::Attack.blocklist('allow2ban login scrapers') do |req|
+    # `filter` returns false value if request is to your login page (but still
+    # increments the count) so request below the limit are not blocked until
+    # they hit the limit.  At that point, filter will return true and block.
+    Rack::Attack::Allow2Ban.filter(req.ip, maxretry: 20, findtime: 1.minute, bantime: 1.hour) do
+      # The count for the IP is incremented if the return value is truthy.
+      req.path == '/login' and req.post?
     end
   end
 
