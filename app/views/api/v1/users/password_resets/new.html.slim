@@ -1,0 +1,11 @@
+- content_for :title do
+  | Reset password
+
+h1 Reset password
+
+= form_for(:password_reset, url: password_resets_path) do |f|
+  div
+    = f.label :email, "Email"
+    = f.email_field :email
+  div
+    = f.submit 'Submit'

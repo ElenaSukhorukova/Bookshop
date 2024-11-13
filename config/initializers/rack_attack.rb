@@ -62,6 +62,7 @@ class Rack::Attack
     end
   end
 
+
   # Always allow requests from localhost
   # (blocklist & throttles are skipped)
   Rack::Attack.safelist('allow from localhost') do |req|

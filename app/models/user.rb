@@ -1,11 +1,13 @@
 class User < ApplicationRecord
+  include User::Authorization
+
   has_secure_password
   has_secure_password :recovery_password, validations: false
 
   validates :email, presence: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :password, presence: true, format: { with: /[\w\d]{1,}|[@.+$!%*#?)(}{&]{1,}|[\w\d]{1,}/ },
                       length: { minimum: 8 }, allow_blank: true,
-                      exclusion: { in: ->(user) { [user.email] }, message: 'should not be the same as your email' }
+                      exclusion: { in: ->(user) { [user.email] }, message: I18n.t('.exclusion') }
   validates_confirmation_of :password, unless: -> { password.blank? }
 
   # customer employee admin
