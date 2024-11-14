@@ -35,5 +35,3 @@
 /config/master.key
 
 config/application.yml
-
-env/postgres.env
