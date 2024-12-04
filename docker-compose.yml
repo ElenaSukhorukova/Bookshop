@@ -3,16 +3,21 @@ services:
   db:
     image: 'postgres:latest'
     volumes:
-      - postgres:/var/lib/postgresql/data
-    env_file:
-      - ./env/postgres.env
-
+      - .:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: ${POSTGRES_HOST_AUTH_METHOD}
   web:
     build: ./
     ports:
       - '3000:3000'
     volumes:
-      - .:/docker/myapp
+      - .:/docker/app
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
     depends_on:
       - db
 
