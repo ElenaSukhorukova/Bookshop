@@ -13,7 +13,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - .:/docker/myapp
+      - .:/docker/app
     environment:
       RAILS_ENV: ${RAILS_ENV}
       DB_USER: ${DB_USER}
