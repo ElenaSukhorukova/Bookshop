@@ -18,4 +18,8 @@ ru:
             greeting: Добро пожаловать в книжный магазин
             goods: Наши товары
 
-
+  shared:
+    navbar:
+      sing_out: Выйти
+      sing_in: Войти
+      sing_up: Зарегистрироваться

@@ -18,3 +18,8 @@ en:
             greeting: Welcome to Bookstore
             goods: Our goods
 
+  shared:
+    navbar:
+      sing_out: Sing out
+      sing_in: Sing in
+      sing_up: Sing on
