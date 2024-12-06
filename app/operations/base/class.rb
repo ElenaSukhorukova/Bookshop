@@ -3,7 +3,8 @@ class Base::Class
 
   def initialize(params)
     @params = params
-    @errors = Base::Errors.new(chid_class.name)
+
+    @errors = Base::Errors.new(self.class.to_s)
   end
 
   def self.call(params)
@@ -11,6 +12,6 @@ class Base::Class
   end
 
   def success?
-    errors.any?
+    !errors.errors_list.any?
   end
 end

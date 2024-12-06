@@ -7,7 +7,10 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
   end
 
   def create
-    operation = Users::Creation.call(user_params)
+    permitted_params = user_params
+    permitted_params['role'] = 'customer'
+
+    operation = Users::Creation.call(permitted_params)
 
     if operation.success?
       flash[:info] = t('.check_email')

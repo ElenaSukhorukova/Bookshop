@@ -1,13 +1,13 @@
 class Base::Errors
-  attr_accessor :errors, :class_name
+  attr_accessor :errors_list, :class_name
 
   def initialize(class_name)
     @class_name = class_name
-    @errors = []
+    @errors_list = []
   end
 
   def add(error)
-    errors.push(error)
+    errors_list.push(error)
 
     Rails.logger.debug("#{class_name} >> #{error}")
   end
