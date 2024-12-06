@@ -4,11 +4,9 @@ require:
   - rubocop-rspec
 
 AllCops:
-  NewCops: enable
+  DisabledByDefault: false
+  NewCops: disable
   TargetRubyVersion: 3.0
-
-AllCops:
-  NewCops: enable
 
 Metrics/BlockLength:
   Exclude:

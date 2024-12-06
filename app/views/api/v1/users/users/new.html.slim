@@ -1,22 +1,23 @@
 - content_for :title do
-  | New user
+  = t('.title')
 
-h1 New user
+div.container
+  h1 = t('.title')
 
-= form_with url: users_path, model: @user do |f|
-  div
-    = render partial: 'shared/errors', locals: { model: @user }
-  div
-    = f.label :email, "Email"
-    = f.email_field :email
-  div
-    = f.label :password, "Pasword"
-    = f.password_field :password
-  div
-    = f.label :password_confirmation, "Pasword confirmation"
-    = f.password_field :password_confirmation
-  div
-    = f.submit
+  = form_with url: users_path, model: @user do |f|
+    div
+      = render partial: 'shared/errors', locals: { model: @user }
+    div
+      = f.label :email, t('.form.email')
+      = f.email_field :email
+    div
+      = f.label :password, t('.form.password')
+      = f.password_field :password
+    div
+      = f.label :password_confirmation, t('.form.password_confirmation')
+      = f.password_field :password_confirmation
+    div
+      = f.submit
 
-div
-  = render 'shared/google_authentication'
+  div
+    / = render 'shared/google_authentication'

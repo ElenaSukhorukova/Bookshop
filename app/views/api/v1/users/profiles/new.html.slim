@@ -4,9 +4,9 @@
 = form_for(@profile, url: user_customers_path(@user)) do |f|
   div
     = render partial: 'shared/errors', locals: { model: @user }
-  / div
-  /   = f.label :email, "Email"
-  /   = f.email_field :email
+  div
+    = f.label :email, "Email"
+    = f.email_field :email
   / div
   /   = f.label :password, "Pasword"
   /   = f.password_field :password

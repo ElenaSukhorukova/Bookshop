@@ -11,6 +11,24 @@ ru:
 
   api:
     v1:
+      users:
+        users:
+          new:
+            title: Новый пользователь
+            form:
+              email: Электронная почта
+              password: Пароль
+              password_confirmation: Подтверждение пароля
+          create:
+            check_email: Please, check your mail to activate your account
+        sessions:
+          new:
+            title: Войти
+            form:
+              email: Электронная почта
+              password: Пароль
+              remember_me: Запомнить меня на этом компьюторе
+
       external:
         store:
           shop_window:
