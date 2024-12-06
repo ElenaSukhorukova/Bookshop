@@ -2,6 +2,15 @@ ru:
   currency: ₽
   name: Книжный магазин
   activerecord:
+    models:
+      user:
+        one: Покупатель
+        other: Покупатели
+      attributes:
+        user:
+          email: Электронная почта
+          password: Пароль
+
     errors:
       models:
         user:
@@ -41,3 +50,7 @@ ru:
       sing_out: Выйти
       sing_in: Войти
       sing_up: Зарегистрироваться
+
+user_mailer:
+  account_activation:
+    subject: Account activation

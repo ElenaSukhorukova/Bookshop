@@ -10,7 +10,9 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
     permitted_params = user_params
     permitted_params['role'] = 'customer'
 
-    operation = Users::Creation.call(permitted_params)
+    @user = People::User.new(permitted_params)
+
+    operation = Users::Creation.call(user: @user)
 
     if operation.success?
       flash[:info] = t('.check_email')

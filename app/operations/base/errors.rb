@@ -1,14 +1,18 @@
-class Base::Errors
-  attr_accessor :errors_list, :class_name
+# frozen_string_literal: true
 
-  def initialize(class_name)
-    @class_name = class_name
-    @errors_list = []
-  end
+module Base
+  class Errors
+    attr_accessor :errors_list, :class_name
 
-  def add(error)
-    errors_list.push(error)
+    def initialize(class_name)
+      @class_name = class_name
+      @errors_list = []
+    end
 
-    Rails.logger.debug("#{class_name} >> #{error}")
+    def add(error)
+      errors_list.push(error)
+
+      Rails.logger.debug("#{class_name} >> #{error}")
+    end
   end
 end

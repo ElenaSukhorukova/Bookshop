@@ -1,17 +1,29 @@
-class Base::Class
-  attr_reader :errors, :params
+# frozen_string_literal: true
 
-  def initialize(params)
-    @params = params
+module Base
+  class Class
+    attr_reader :errors, :params
 
-    @errors = Base::Errors.new(self.class.to_s)
-  end
+    def initialize(params)
+      @params = params
 
-  def self.call(params)
-    new(params).call
-  end
+      @errors = Errors.new(self.class.to_s)
+    end
 
-  def success?
-    !errors.errors_list.any?
+    def self.call(params)
+      new(params).call
+    end
+
+    def success?
+      errors.errors_list.none?
+    end
+
+    private
+
+    def valid?
+      validate
+
+      success?
+    end
   end
 end

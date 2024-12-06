@@ -4,7 +4,7 @@
 div.container
   h1 = t('.title')
 
-  = form_with url: users_path, model: @user do |f|
+  = form_with url: users_path, model: @user, id: 'new_user' do |f|
     div
       = render partial: 'shared/errors', locals: { model: @user }
     div
