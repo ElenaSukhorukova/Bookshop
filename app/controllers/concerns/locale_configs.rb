@@ -9,15 +9,19 @@ module LocaleConfigs
 
       q_factors = header.split(',').map do |lan|
         pair = lan.split(';')
-        next if pair[1].blank?
 
-        [pair[0], pair[1].tr('q=', '').to_f]
+        language = pair[0][0, 2]
+        factor = pair[1]&.tr('q=', '')&.to_f
+
+        next if factor.blank?
+
+        [language, factor]
       end.compact
 
       return if q_factors.blank?
 
-      q_factors.to_h.sort_by {|_, v| -v}.each do |lan, _|
-        return lan if I18n.available_locales.include?(lan)
+      q_factors.sort_by { |lang_pair| -lang_pair[1] }.each do |lang_pair|
+        return lang_pair[0] if I18n.available_locales.include?(lang_pair[0].to_sym)
       end
 
       nil

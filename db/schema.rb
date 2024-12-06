@@ -22,7 +22,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_08_045332) do
     t.string "email", null: false
     t.string "password_digest"
     t.string "remember_digest"
-    t.boolean "activated", default: false
+    t.boolean "activated", default: false, null: false
     t.datetime "activated_at"
     t.string "activation_digest"
     t.string "reset_digest"

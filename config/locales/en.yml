@@ -11,6 +11,24 @@ en:
 
   api:
     v1:
+      users:
+        users:
+          new:
+            title: New user
+            form:
+              email: Email
+              password: Password
+              password_confirmation: Pasword confirmation
+          create:
+            check_email: Please, check your mail to activate your account
+        sessions:
+          new:
+            title: Sign in
+            form:
+              email: Email
+              password: Password
+              remember_me: Remember me on this computer
+
       external:
         store:
           shop_window:
@@ -18,3 +36,8 @@ en:
             greeting: Welcome to Bookstore
             goods: Our goods
 
+  shared:
+    navbar:
+      sing_out: Sing out
+      sing_in: Sing in
+      sing_up: Sing up
