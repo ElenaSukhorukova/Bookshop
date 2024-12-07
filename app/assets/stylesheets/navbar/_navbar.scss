@@ -83,11 +83,15 @@ nav {
     &.active {
       display: block;
     }
-  }
 
-  &__collapse-content .language {
-    width: 100px;
-    height: 50px;
+    &.language {
+      width: 25px;
+      height: 50px;
+
+      &__image {
+        width: 25px
+      }
+    }
   }
 }
 

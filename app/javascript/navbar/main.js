@@ -9,8 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function collapseParticularMenu(event) {
     event.preventDefault();
+    let activeElements = document.querySelectorAll('.active');
     let target = this.getAttribute('data-target'),
       targetContent = document.querySelector(`#${target}`);
+
+    activeElements.forEach(element => element.classList.remove('active'));
 
     targetContent.classList.toggle("active");
   }
