@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function collapseParticularMenu(event) {
     event.preventDefault();
-    console.log(event)
-    // this.classList.toggle("active");
+    let target = this.getAttribute('data-target'),
+      targetContent = document.querySelector(`#${target}`);
+
+    targetContent.classList.toggle("active");
   }
 });
