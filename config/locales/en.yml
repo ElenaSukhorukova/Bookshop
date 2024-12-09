@@ -12,6 +12,10 @@ en:
   api:
     v1:
       users:
+        account_activations:
+          edit:
+            activated: Your account was activated
+            error: Invalid activation link
         users:
           new:
             title: New user
@@ -41,3 +45,10 @@ en:
       sing_out: Sing out
       sing_in: Sing in
       sing_up: Sing up
+
+  user_mailer:
+    account_activation:
+      subject: Account activation
+      link: Activate account
+    password_reset:
+      subject: Password reset

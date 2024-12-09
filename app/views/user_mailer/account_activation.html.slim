@@ -1,0 +1,6 @@
+.container
+  h1
+    | Hi, = "#{@user.email}"
+  p
+    | Click on the link to activate your account
+  = link_to t('.link'), edit_account_activation_url(id: @user.signed_id(purpose: :activation_token), locale: I18n.locale)

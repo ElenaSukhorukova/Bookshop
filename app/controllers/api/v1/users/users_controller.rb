@@ -3,14 +3,14 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
   #   # before_action :admin_user?, only: %i[destroy]
 
   def new
-    @user = People::User.new
+    @user = User.new
   end
 
   def create
     permitted_params = user_params
     permitted_params['role'] = 'customer'
 
-    @user = People::User.new(permitted_params)
+    @user = User.find_or_new(permitted_params)
 
     operation = Users::Creation.call(user: @user)
 
@@ -57,6 +57,6 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
   #   # end
 
   def user_params
-    params.require(:people_user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end

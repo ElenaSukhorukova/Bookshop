@@ -39,6 +39,7 @@ module Bookshop
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # locales
     config.i18n.load_path += Dir[Rails.root.join('config/locales/*.{rb,yml}')]
     I18n.available_locales = %i[en ru]
     config.i18n.default_locale = :en

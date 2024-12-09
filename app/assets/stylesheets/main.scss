@@ -8,6 +8,10 @@ html {
   font-family: Roboto, sans-serif;
 }
 
-@import 'external/navbar';
-@import 'external/container';
-@import 'external/collapse';
+main {
+  background-color: #f3f4f6;
+}
+
+@import 'base/container';
+@import 'base/header';
+@import 'navbar/navbar';

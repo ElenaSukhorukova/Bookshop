@@ -39,6 +39,7 @@ gem 'rails-i18n'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri windows]
+  gem 'dotenv', '~> 3.1.4'
   gem 'figaro'
   gem 'rubocop', '~> 1.40', require: false
   gem 'rubocop-performance', '~> 1.15', require: false

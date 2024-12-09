@@ -10,10 +10,15 @@
 
     <%= stylesheet_link_tag "application.scss.css", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <!-- icons -->
+    <script src="https://kit.fontawesome.com/779d459ff2.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
-    <%#= render 'shared/external_navbar' %>
-    <%= yield %>
+    <main>
+      <%= render 'shared/external_navbar' %>
+      <%= yield %>
+    </main>
   </body>
 </html>

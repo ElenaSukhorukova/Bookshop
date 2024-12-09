@@ -40,12 +40,13 @@ module User::Authorization
     #     # user.update!(password: "new password")
     #     # User.find_by_token_for(:password_reset, token) # => nil
 
-    #     def authenticated?(attribute, token)
-    #       digest = send("#{attribute}_digest")
-    #       return if digest.blank?
+    def authenticated?(attribute, token)
+      digest = send("#{attribute}_digest")
 
-    #       BCrypt::Password.new(digest).is_password?(token)
-    #     end
+      return if digest.blank?
+
+      BCrypt::Password.new(digest).is_password?(token)
+    end
 
     #     def forget
     #       update(remember_digest: nil)
@@ -56,7 +57,8 @@ module User::Authorization
     #     end
 
     def send_activation_email
-      UserMailer.account_activation(self).deliver_now
+      # TODO: Add a worker
+      UserMailer.with(user: self).account_activation.deliver_now
     end
 
     #   #   def send_password_reset_email
@@ -74,8 +76,12 @@ module User::Authorization
 
       update(
         activation_token: activeation_token,
-        activation_digest: People::User.digest(activeation_token)
+        activation_digest: User.digest(activeation_token)
       )
+
+      pp '------------------------------'
+      pp activation_token
+      pp '------------------------------'
     end
   end
 
@@ -84,13 +90,11 @@ module User::Authorization
     #       SecureRandom.urlsafe_base64
     #     end
 
-    #     def digest(string)
-    #       cost = ActiveModel::SecurePassword.min_cost ?
-    #              BCrypt::Engine::MIN_COST :
-    #              BCrypt::Engine.cost
+    def digest(string)
+      cost = BCrypt::Engine::MIN_COST
 
-    #       BCrypt::Password.create(string, cost: cost)
-    #     end
+      BCrypt::Password.create(string, cost: cost)
+    end
 
     #     def from_omniauth(auth)
     #       info = auth.info

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
           post :signout, to: 'sessions#destroy'
           # get '/auth/:provider/callback', to: 'sessions#omniauth'
 
-          # resources :account_activations, only: %i[edit]
+          resources :account_activations, only: %i[edit]
           # resources :password_resets, only: %i[new create update]
           # resources :user_mfa_session, only: %i[new create]
 
