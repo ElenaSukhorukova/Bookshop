@@ -17,8 +17,6 @@
 class User < ApplicationRecord
   include User::Authorization
 
-  attr_accessor :activation_token # , :remember_token, :reset_token
-
   has_secure_password
   has_secure_password :recovery_password, validations: false
 
@@ -39,15 +37,6 @@ class User < ApplicationRecord
 
   before_save :make_normalize
   after_create :create_activate_digest
-
-  # find unactivated user or create new
-  def self.find_or_new(params)
-    user = find_by(email: params[:email], activated: false)
-
-    return new(params) if user.blank?
-
-    user
-  end
 
   private
 

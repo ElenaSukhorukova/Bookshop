@@ -10,7 +10,7 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
     permitted_params = user_params
     permitted_params['role'] = 'customer'
 
-    @user = User.find_or_new(permitted_params)
+    @user = User.new(permitted_params)
 
     operation = Users::Creation.call(user: @user)
 
