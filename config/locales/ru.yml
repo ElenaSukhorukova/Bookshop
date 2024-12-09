@@ -21,6 +21,10 @@ ru:
   api:
     v1:
       users:
+        account_activations:
+          edit:
+            activated: Ваш аккаунт был активирован
+            error: Неверная ссылка активации
         users:
           new:
             title: Новый пользователь
@@ -51,6 +55,8 @@ ru:
       sing_in: Войти
       sing_up: Зарегистрироваться
 
-user_mailer:
-  account_activation:
-    subject: Account activation
+  user_mailer:
+    account_activation:
+      subject: Активация аккаунта
+    password_reset:
+      subject: Сброс пароля

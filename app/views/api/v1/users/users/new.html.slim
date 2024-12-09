@@ -1,6 +1,6 @@
 - content_for :title do
   = t('.title')
-div.container
+.container
   section.main__block
     h1.header  = t('.title')
 
@@ -19,5 +19,5 @@ div.container
       div
         = f.submit
 
-    div
+    / div
       / = render 'shared/google_authentication'
