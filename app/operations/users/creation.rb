@@ -7,6 +7,8 @@ module Users
     def call
       return self unless valid?
 
+      user = User.new(params)
+
       ActiveRecord::Base.transaction do
         unless user.save
           user.errors.each { |error| errors.add(error.full_message) }

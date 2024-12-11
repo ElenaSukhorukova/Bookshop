@@ -18,7 +18,7 @@ RSpec.describe 'Users', type: :feature do
 
       click_button 'Create User'
 
-      expect(page).to have_content I18n.t('activerecord.errors.models.user.attributes.password.exclusion')
+      expect(page).to have_content I18n.t('dry_validation.errors.user.password_exclusion')
     end
 
     it 'checks redirection and flash' do
