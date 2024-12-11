@@ -1,13 +1,13 @@
 en:
   currency: $
   name: Bookshop
-  activerecord:
+
+  dry_validation:
     errors:
-      models:
-        user:
-          attributes:
-            password:
-              exclusion: should not be the same as your email
+      user:
+        format: 'invalid format'
+        password_exclusion: should not be the same as your email
+        password_similarity: should be the same as password
 
   api:
     v1:
@@ -15,7 +15,7 @@ en:
         account_activations:
           edit:
             activated: Your account was activated
-            error: Invalid activation link
+            activation_error: "Invalid activation link. Please, try again in %{period} minutes"
         users:
           new:
             title: New user

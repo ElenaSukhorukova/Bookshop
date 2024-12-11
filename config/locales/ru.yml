@@ -11,12 +11,12 @@ ru:
           email: Электронная почта
           password: Пароль
 
+  dry_validation:
     errors:
-      models:
-        user:
-          attributes:
-            password:
-              exclusion: не должен совпадать с вашим адресом электронной почты
+      user:
+        format: 'невалидный формат'
+        password_exclusion: не должен совпадать с вашим адресом электронной почты
+        password_similarity: должeн быть таким же, как пароль
 
   api:
     v1:
@@ -24,7 +24,7 @@ ru:
         account_activations:
           edit:
             activated: Ваш аккаунт был активирован
-            error: Неверная ссылка активации
+            activation_error: "Неверная ссылка активации. Пожалуйста, попробуйте снова через %{period} минут"
         users:
           new:
             title: Новый пользователь

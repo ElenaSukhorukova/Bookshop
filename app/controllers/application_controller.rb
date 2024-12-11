@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
 
   around_action :set_locale
 
+  # the default alert and notice
+  add_flash_types :success, :danger, :info
+
   private
 
   def set_locale(&action)

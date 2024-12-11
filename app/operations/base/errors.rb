@@ -14,5 +14,9 @@ module Base
 
       Rails.logger.debug("#{class_name} >> #{error}")
     end
+
+    def full_message
+      errors_list.join('; ')
+    end
   end
 end
