@@ -1,0 +1,24 @@
+@import 'base/variables';
+
+.flash {
+  position: absolute;
+  top: 81px;
+  left: 20%;
+  min-height: 50px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+  opacity: 0.5;
+
+  &.success {
+    background-color: $light-green;
+  }
+
+  &.danger {
+    background-color: $light-red;
+  }
+
+  &.info {
+    background-color: $light-blue;
+  }
+}

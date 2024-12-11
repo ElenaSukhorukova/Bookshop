@@ -1,5 +1,30 @@
 version: '3.7'
+
 services:
+
+  redis:
+    image: 'bitnami/redis:latest'
+    command: redis-server
+    volumes:
+      - redis:/data
+    environment:
+      REDIS_ALLOW_EMPTY_PASSWORD: ${REDIS_ALLOW_EMPTY_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+    ports:
+      - '6380:6379'
+
+  sidekiq:
+    build: ../
+    command: bundle exec sidekiq
+    volumes:
+      - ../:/rails-app
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+    depends_on:
+      - redis
+
   db:
     image: 'postgres:latest'
     volumes:
@@ -8,6 +33,7 @@ services:
       - '5433:5432'
     environment:
       POSTGRES_HOST_AUTH_METHOD: ${POSTGRES_HOST_AUTH_METHOD}
+
   web:
     build: ./
     ports:
@@ -20,6 +46,7 @@ services:
       DB_PASS: ${DB_PASS}
     depends_on:
       - db
+      - redis
 
 volumes:
   postgres:

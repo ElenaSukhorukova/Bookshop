@@ -15,21 +15,12 @@
 # t.index ["email"], name: "unique_emails", unique: true
 
 class User < ApplicationRecord
-  include User::Authorization
+  acts_as_paranoid
 
-  attr_accessor :activation_token # , :remember_token, :reset_token
+  include User::Authorization
 
   has_secure_password
   has_secure_password :recovery_password, validations: false
-
-  validates :email, presence: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
-  validates :password, presence: true, format: { with: /[\w\d]{1,}|[@.+$!%*#?)(}{&]{1,}|[\w\d]{1,}/ },
-                       length: { minimum: 8 }, allow_blank: true,
-                       exclusion: {
-                         in: ->(user) { [user.email] },
-                         message: I18n.t('activerecord.errors.models.user.attributes.password.exclusion')
-                       }
-  validates :password, confirmation: { unless: -> { password.blank? } }
 
   # customer employee admin
   attribute :role, :enum
@@ -39,15 +30,6 @@ class User < ApplicationRecord
 
   before_save :make_normalize
   after_create :create_activate_digest
-
-  # find unactivated user or create new
-  def self.find_or_new(params)
-    user = find_by(email: params[:email], activated: false)
-
-    return new(params) if user.blank?
-
-    user
-  end
 
   private
 

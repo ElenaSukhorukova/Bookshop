@@ -43,5 +43,7 @@ module Bookshop
     config.i18n.load_path += Dir[Rails.root.join('config/locales/*.{rb,yml}')]
     I18n.available_locales = %i[en ru]
     config.i18n.default_locale = :en
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

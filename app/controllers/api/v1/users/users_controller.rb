@@ -1,26 +1,30 @@
+# frozen_string_literal: true
+
 class Api::V1::Users::UsersController < Api::V1::ApplicationController
-  #   # before_action :define_user, :singed_in_user, :correct_user, only: %i[edit update destroy]
-  #   # before_action :admin_user?, only: %i[destroy]
+  # before_action :define_user, :singed_in_user, :correct_user, only: %i[edit update destroy]
+  # before_action :admin_user?, only: %i[destroy]
+
+  CUSTOMER = 'customer'
 
   def new
     @user = User.new
   end
 
   def create
-    permitted_params = user_params
-    permitted_params['role'] = 'customer'
+    user_params = params[:user].permit!.to_h
+    user_params[:role] = CUSTOMER
 
-    @user = User.find_or_new(permitted_params)
+    operation = Users::Creation.call(params: user_params)
 
-    operation = Users::Creation.call(user: @user)
+    unless operation.success?
+      flash[:danger] = operation.errors.full_message
 
-    if operation.success?
-      flash[:info] = t('.check_email')
-
-      redirect_to root_path and return
+      render :new, status: :bad_request and return
     end
 
-    render :new, status: :bad_request
+    flash[:info] = t('.check_email')
+
+    redirect_to root_path
   end
 
   #   # def edit; end
@@ -55,8 +59,4 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
 
   #   #   redirect_to root_path
   #   # end
-
-  def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
-  end
 end

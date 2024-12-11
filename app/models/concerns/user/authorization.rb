@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module User::Authorization
   extend ActiveSupport::Concern
 
@@ -41,7 +43,7 @@ module User::Authorization
     #     # User.find_by_token_for(:password_reset, token) # => nil
 
     def authenticated?(attribute, token)
-      digest = send("#{attribute}_digest")
+      digest = self.send("#{attribute}_digest") # rubocop:disable Style/RedundantSelf
 
       return if digest.blank?
 
@@ -57,8 +59,7 @@ module User::Authorization
     #     end
 
     def send_activation_email
-      # TODO: Add a worker
-      UserMailer.with(user: self).account_activation.deliver_now
+      UserMailer.with(user: self).account_activation.deliver_later
     end
 
     #   #   def send_password_reset_email
@@ -72,16 +73,11 @@ module User::Authorization
     #   #   end
 
     def create_activate_digest
-      activeation_token = signed_id(expires_in: 15.minutes, purpose: :activation_token)
+      activation_token = signed_id(expires_in: 15.minutes, purpose: :activation_token)
 
-      update(
-        activation_token: activeation_token,
-        activation_digest: User.digest(activeation_token)
-      )
+      $redis.set("#{self.id}_activation_token", activation_token, ex: 15.minutes) # rubocop:disable Style/RedundantSelf
 
-      pp '------------------------------'
-      pp activation_token
-      pp '------------------------------'
+      update!(activation_digest: User.digest(activation_token))
     end
   end
 

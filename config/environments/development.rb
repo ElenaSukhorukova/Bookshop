@@ -41,7 +41,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.perform_caching = false
   config.action_mailer.smtp_settings = {
-    address: ENV['SMTP_SETTINGS_EMAIL_ADDEWSS'],
+    address: ENV['SMTP_SETTINGS_EMAIL_ADDRESS'],
     port: 465,
     domain: ENV['SMTP_SETTINGS_DOMAIN'],
     user_name: ENV['SMTP_SETTINGS_USER_NAME'],

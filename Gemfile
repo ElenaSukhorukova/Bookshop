@@ -9,11 +9,13 @@ gem 'jbuilder'
 gem 'jquery-rails'
 gem 'sprockets-rails'
 
+gem 'paranoia', '~> 3.0.0'
 gem 'pg', '~> 1.5', '>= 1.5.9'
 gem 'strong_migrations'
 
 gem 'bootsnap', require: false
 gem 'puma', '>= 5.0'
+gem 'rack-attack', '~> 6.7'
 
 # gem 'bootstrap', '~> 5.3.2'
 gem 'sassc-rails'
@@ -21,8 +23,8 @@ gem 'slim-rails', '~> 3.6.2'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 
-# Use Redis adapter to run Action Cable in production
 gem 'redis', '>= 4.0.1'
+gem 'sidekiq', '~> 7.3.6'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem 'kredis'
@@ -37,6 +39,9 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 # gem 'image_processing', '~> 1.2'
 gem 'rails-i18n'
 
+# dry-rb
+gem 'dry-rails', '~> 0.3'
+
 group :development, :test do
   gem 'debug', platforms: %i[mri windows]
   gem 'dotenv', '~> 3.1.4'
@@ -48,9 +53,12 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'database_cleaner-active_record'
+  gem 'email_spec'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails', '~> 6.1.0'
+  gem 'rspec-sidekiq', '~> 5.0.0'
   gem 'rubocop-rspec', '~> 2.16.0', require: false
   gem 'selenium-devtools', '~> 0.122'
 end
@@ -65,5 +73,3 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem 'spring'
 end
-
-gem 'rack-attack', '~> 6.7'

@@ -16,6 +16,9 @@ Layout/LineLength:
   Exclude:
     - spec/**/*.rb
 
+Style/GlobalVars:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
