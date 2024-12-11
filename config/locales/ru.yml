@@ -17,7 +17,7 @@ ru:
         format: 'невалидный формат'
         password_exclusion: не должен совпадать с вашим адресом электронной почты
         password_similarity: должeн быть таким же, как пароль
-
+        unsupported_role: не поддерживается в этом запросе
   api:
     v1:
       users:

@@ -3,6 +3,7 @@
 module Users
   class Creation < Base::Class
     ABSENT_PARAMS = 'params is blank'
+    WATING_MINUTES = 15.minutes
 
     def call
       return self unless valid?
@@ -17,6 +18,8 @@ module Users
         end
 
         user.send_activation_email
+
+        DeletionUnactivatedUser.perform_in(WATING_MINUTES, user.id)
       end
 
       self

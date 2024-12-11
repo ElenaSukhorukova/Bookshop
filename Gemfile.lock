@@ -229,6 +229,8 @@ GEM
     nokogiri (1.16.8-x86_64-linux)
       racc (~> 1.4)
     parallel (1.24.0)
+    paranoia (3.0.0)
+      activerecord (>= 6, < 8.1)
     parser (3.3.0.5)
       ast (~> 2.4.1)
       racc
@@ -313,6 +315,11 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
+    rspec-sidekiq (5.0.0)
+      rspec-core (~> 3.0)
+      rspec-expectations (~> 3.0)
+      rspec-mocks (~> 3.0)
+      sidekiq (>= 5, < 8)
     rspec-support (3.13.2)
     rubocop (1.63.1)
       json (~> 2.3)
@@ -427,6 +434,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   jquery-rails
+  paranoia (~> 3.0.0)
   pg (~> 1.5, >= 1.5.9)
   pry (~> 0.14.2)
   puma (>= 5.0)
@@ -435,6 +443,7 @@ DEPENDENCIES
   rails-i18n
   redis (>= 4.0.1)
   rspec-rails (~> 6.1.0)
+  rspec-sidekiq (~> 5.0.0)
   rubocop (~> 1.40)
   rubocop-performance (~> 1.15)
   rubocop-rails (~> 2.17)

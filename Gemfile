@@ -9,6 +9,7 @@ gem 'jbuilder'
 gem 'jquery-rails'
 gem 'sprockets-rails'
 
+gem 'paranoia', '~> 3.0.0'
 gem 'pg', '~> 1.5', '>= 1.5.9'
 gem 'strong_migrations'
 
@@ -57,6 +58,7 @@ group :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails', '~> 6.1.0'
+  gem 'rspec-sidekiq', '~> 5.0.0'
   gem 'rubocop-rspec', '~> 2.16.0', require: false
   gem 'selenium-devtools', '~> 0.122'
 end

@@ -59,8 +59,7 @@ module User::Authorization
     #     end
 
     def send_activation_email
-      # TODO: Add a worker
-      UserMailer.with(user: self).account_activation.deliver_now
+      UserMailer.with(user: self).account_activation.deliver_later
     end
 
     #   #   def send_password_reset_email

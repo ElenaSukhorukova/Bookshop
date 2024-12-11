@@ -4,6 +4,7 @@ module Validations
       required(:email).filled(:str?)
       required(:password).filled(:str?, min_size?: 8)
       required(:password_confirmation).filled(:str?)
+      required(:role).filled(:str?)
     end
 
     rule(:email) do
@@ -26,6 +27,10 @@ module Validations
       if values[:password].present? && (values[:password] != values[:password_confirmation])
         key.failure(I18n.t('dry_validation.errors.user.password_similarity'))
       end
+    end
+
+    rule(:role) do
+      key.failure(I18n.t('dry_validation.errors.user.unsupported_role')) if value != 'customer'
     end
   end
 end

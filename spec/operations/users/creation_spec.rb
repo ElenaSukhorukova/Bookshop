@@ -5,13 +5,14 @@ RSpec.describe Users::Creation do
     email = ex.metadata[:email] || 'wen@morar.example'
     password = ex.metadata[:password] || '9X%14*EuSLQ'
     password_confirmation = ex.metadata[:password_confirmation] || password
+    role = ex.metadata[:role] || 'customer'
 
     {
       params: {
         email: email,
         password: password,
         password_confirmation: password_confirmation,
-        role: 'customer'
+        role: role
       }
     }
   end
@@ -23,6 +24,7 @@ RSpec.describe Users::Creation do
       user = User.find_by(email: params.dig(:params, :email))
 
       expect(user.present?).to be(true)
+      expect(DeletionUnactivatedUser).to have_enqueued_sidekiq_job
     end
 
     it 'validates email format', email: 'wenmorar.example' do
@@ -65,6 +67,15 @@ RSpec.describe Users::Creation do
       user_creation = described_class.call({})
 
       expect(user_creation.errors.full_message).to include(Users::Creation::ABSENT_PARAMS)
+    end
+
+    it 'validates role', role: 'admin' do
+      user_creation = described_class.call(params)
+
+      user = User.find_by(email: params.dig(:params, :email))
+
+      expect(user.present?).to be(false)
+      expect(user_creation.errors.full_message).to include(I18n.t('dry_validation.errors.user.unsupported_role'))
     end
   end
 end

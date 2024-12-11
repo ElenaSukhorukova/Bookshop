@@ -10,13 +10,17 @@ RUN groupadd -g 1234 $DOCKER_GROUP && \
     usermod -aG sudo $DOCKER_USER
 
 # switch to the user
-USER $DOCKER_USER
+# USER $DOCKER_USER
 
 # Install dependencies
-RUN apt-get update -qq && \
+RUN apt-get clean all && \
+    apt-get update -qq && \
     apt-get install -y \
     nodejs \
+    npm \
+    yarn \
     postgresql-client \
+    postgresql-server-dev-all \
     libssl-dev \
     libreadline-dev \
     zlib1g-dev \
@@ -25,8 +29,13 @@ RUN apt-get update -qq && \
     libpq-dev \
     libvips \
     pkg-config \
-    build-essential
-
+    build-essential \
+    gnupg2 \
+    apt-utils \
+    libcurl3-dev \
+    cmake \
+    openssl \
+    file
 
 # Add permissions for the user
 RUN mkdir /app

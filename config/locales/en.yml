@@ -8,6 +8,7 @@ en:
         format: 'has invalid format'
         password_exclusion: should not be the same as your email
         password_similarity: should be the same as password
+        unsupported_role: is not supported through this request
 
   api:
     v1:

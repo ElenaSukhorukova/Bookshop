@@ -15,6 +15,8 @@
 # t.index ["email"], name: "unique_emails", unique: true
 
 class User < ApplicationRecord
+  acts_as_paranoid
+
   include User::Authorization
 
   has_secure_password
