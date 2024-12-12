@@ -5,9 +5,10 @@
     h1.header  = t('.title')
 
     = form_with url: users_path, model: @user, id: 'new_user' do |f|
+      = f.hidden_field :role, value: 'customer'
       div
         = f.label :email, t('.form.email')
-        = f.email_field :email
+        = f.email_field :email, value: @user.email
       div
         = f.label :password, t('.form.password')
         = f.password_field :password

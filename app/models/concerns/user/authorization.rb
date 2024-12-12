@@ -4,14 +4,13 @@ module User::Authorization
   extend ActiveSupport::Concern
 
   included do
-    #     def remember
-    #       remember_token = People::User.new_token
+    def remember
+      remember_token = generate_token_for(:remember_token)
 
-    #       self.remember_token = remember_token
-    #       self.update(
-    #         remember_digect: People::User.digest(remember_token)
-    #       )
-    #     end
+      self.remeber_token = remember_token
+
+      update(remember_digect: User.digest(remember_token))
+    end
 
     #     # TODO rewrite User.first.signed_id expires_in: 15.minutes, purpose: :reset_digest
     #     # User.find_signed signed_id, purpose: :reset_digest
@@ -50,9 +49,9 @@ module User::Authorization
       BCrypt::Password.new(digest).is_password?(token)
     end
 
-    #     def forget
-    #       update(remember_digest: nil)
-    #     end
+    def forget
+      update(remember_digest: nil)
+    end
 
     def activate
       update(activated: true, activated_at: Time.zone.now)
@@ -73,7 +72,7 @@ module User::Authorization
     #   #   end
 
     def create_activate_digest
-      activation_token = signed_id(expires_in: 15.minutes, purpose: :activation_token)
+      activation_token = generate_token_for(:activation_token)
 
       $redis.set("#{self.id}_activation_token", activation_token, ex: 15.minutes) # rubocop:disable Style/RedundantSelf
 

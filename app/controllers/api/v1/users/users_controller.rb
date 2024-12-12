@@ -4,17 +4,12 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
   # before_action :define_user, :singed_in_user, :correct_user, only: %i[edit update destroy]
   # before_action :admin_user?, only: %i[destroy]
 
-  CUSTOMER = 'customer'
-
   def new
     @user = User.new
   end
 
   def create
-    user_params = params.permit!.to_h
-    user_params = user_params[:user]&.merge(role: CUSTOMER) || {}
-
-    operation = Users::Creation.call(params: user_params)
+    operation = Users::Creation.call(params: params.permit!.to_h[:user])
 
     unless operation.success?
       flash[:danger] = operation.errors.full_message

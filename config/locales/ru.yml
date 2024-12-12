@@ -26,6 +26,8 @@ ru:
             activated: Ваш аккаунт был активирован
             activation_error: "Неверная ссылка активации. Пожалуйста, попробуйте снова через %{period} минут"
         users:
+          errors:
+            blank_params: параметры пусты
           new:
             title: Новый пользователь
             form:
@@ -35,6 +37,10 @@ ru:
           create:
             check_email: Please, check your mail to activate your account
         sessions:
+          errors:
+            blank_params: параметры пусты
+            invalid_password_or_email: Неверный адрес электронной почты или пароль
+            unactivated_account: Ваша учетная запись не активирована. Проверьте свою электронную почту на наличие ссылки для активации.
           new:
             title: Войти
             form:

@@ -11,16 +11,19 @@
 # t.string "reset_digest"
 # t.datetime "reset_sent_at"
 # t.enum "role", default: "customer", enum_type: "user_role"
-# t.string "uid"
 # t.index ["email"], name: "unique_emails", unique: true
 
 class User < ApplicationRecord
-  acts_as_paranoid
-
   include User::Authorization
+
+  generates_token_for :remeber_token, expires_in: 14.days
+  generates_token_for :activation_token, expires_in: 15.minutes
 
   has_secure_password
   has_secure_password :recovery_password, validations: false
+
+  has_one :profile, dependent: :destroy
+  has_many :sessions, dependent: :destroy
 
   # customer employee admin
   attribute :role, :enum

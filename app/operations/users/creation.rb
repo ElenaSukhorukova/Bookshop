@@ -35,7 +35,7 @@ module Users
     def validate_params_presence
       return if params.present?
 
-      errors.add(ABSENT_PARAMS)
+      errors.add(I18n.t('api.v1.users.users.errors.blank_params'))
     end
 
     def validate_params
