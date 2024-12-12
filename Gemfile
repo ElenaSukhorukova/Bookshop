@@ -42,6 +42,11 @@ gem 'rails-i18n'
 # dry-rb
 gem 'dry-rails', '~> 0.3'
 
+gem 'google-authenticator-rails'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
 group :development, :test do
   gem 'debug', platforms: %i[mri windows]
   gem 'dotenv', '~> 3.1.4'

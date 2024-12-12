@@ -11,8 +11,8 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
   end
 
   def create
-    user_params = params[:user].permit!.to_h
-    user_params[:role] = CUSTOMER
+    user_params = params.permit!.to_h
+    user_params = user_params[:user]&.merge(role: CUSTOMER) || {}
 
     operation = Users::Creation.call(params: user_params)
 

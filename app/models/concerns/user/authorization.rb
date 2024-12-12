@@ -54,9 +54,9 @@ module User::Authorization
     #       update(remember_digest: nil)
     #     end
 
-    #     def activate
-    #       update(activated: true, activated_at: Time.zone.now)
-    #     end
+    def activate
+      update(activated: true, activated_at: Time.zone.now)
+    end
 
     def send_activation_email
       UserMailer.with(user: self).account_activation.deliver_later
