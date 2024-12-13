@@ -4,17 +4,15 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
   # before_action :define_user, :singed_in_user, :correct_user, only: %i[edit update destroy]
   # before_action :admin_user?, only: %i[destroy]
 
-  CUSTOMER = 'customer'
+  before_action :store_location, only: :new
 
   def new
     @user = User.new
   end
 
   def create
-    user_params = params[:user].permit!.to_h
-    user_params[:role] = CUSTOMER
-
-    operation = Users::Creation.call(params: user_params)
+    operation = Users::Creation.call(params: params.permit!.to_h[:user])
+    @user = operation.user
 
     unless operation.success?
       flash[:danger] = operation.errors.full_message
@@ -22,9 +20,7 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
       render :new, status: :bad_request and return
     end
 
-    flash[:info] = t('.check_email')
-
-    redirect_to root_path
+    redirect_back_or(root_path, info: t('.check_email'))
   end
 
   #   # def edit; end

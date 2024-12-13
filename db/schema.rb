@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_11_141712) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_12_091223) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "user_role", ["customer", "employee", "admin"]
+
+  create_table "sessions", force: :cascade do |t|
+    t.string "uid", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uid"], name: "unique_sessions", unique: true
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
@@ -27,8 +36,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_11_141712) do
     t.string "activation_digest"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
-    t.string "users"
-    t.string "uid"
     t.string "provider"
     t.jsonb "provider_settings"
     t.datetime "created_at", null: false
@@ -39,4 +46,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_11_141712) do
     t.index ["email"], name: "unique_emails", unique: true
   end
 
+  add_foreign_key "sessions", "users"
 end

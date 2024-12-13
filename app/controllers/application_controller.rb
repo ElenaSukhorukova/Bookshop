@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include LocaleConfigs
+  include Redirectable
 
   around_action :set_locale
 

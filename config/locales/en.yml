@@ -13,11 +13,19 @@ en:
   api:
     v1:
       users:
+        password_resets:
+          new:
+            title: Reset password
+            form:
+              email: Email
+              submit: Send
         account_activations:
           edit:
             activated: Your account was activated
             activation_error: "Invalid activation link. Please, try again in %{period} minutes"
         users:
+          errors:
+            blank_params: params is blank
           new:
             title: New user
             form:
@@ -27,12 +35,18 @@ en:
           create:
             check_email: Please, check your mail to activate your account
         sessions:
+          errors:
+            blank_params: params is blank
+            invalid_password_or_email: Invalid email or password
+            unactivated_account: Your account is not activated. Please check your email for the activation link.
           new:
             title: Sign in
             form:
               email: Email
               password: Password
               remember_me: Remember me on this computer
+          create:
+            successful_enter: Welcome to the Bookshop
 
       external:
         store:

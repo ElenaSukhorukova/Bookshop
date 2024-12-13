@@ -1,76 +1,67 @@
 # frozen_string_literal: true
 
 class Api::V1::Users::SessionsController < Api::V1::ApplicationController
-  # skip_before_action :verify_authenticity_token, only: %i[omniauth]
+  skip_before_action :verify_authenticity_token, only: %i[omniauth]
 
   REMEMBER_VALUE = '1'
 
-  def new; end
+  before_action :store_location, only: :new
 
-  def create
-    user = People::User.find_by_email(session_params[:email]&.downcase)
-
-    if user && user.authenticate(session_params[:password])
-      if user.activated?
-        sign_in(user)
-
-        session_params[:remember_me] == REMEMBER_VALUE ? remember(user) : forget(user)
-
-        redirect_to_new_profile(user) and return if user.profile.blank?
-
-        redirect_back_or(user) and return
-      end
-
-      user.create_activate_digest
-      user.send_activation_email
-
-      flash[:notice] = 'Your account isn\'t activated. Please check your email for the activation link.'
-
-      redirect_to root_path and return
-    end
-
-    flash.now[:danger] = 'Invalid email or password'
-
-    render :new, status: :unauthorized
-    render json: { error: 'Invalid email or password' }, status: :unauthorized
+  def new
+    @session = Session.new
   end
 
-  #   def destroy
-  #     sign_out if signed_in?
+  def create # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    permited_params = params.permit!.to_h[:session] || {}
 
-  #     redirect_to root_path
-  #   end
+    operation = Users::Session.call(params: permited_params)
 
-  #   def omniauth
-  #     user = People::User.from_omniauth(request.env['omniauth.auth'])
+    if operation.success?
+      session = operation.session
+      user = session.user
 
-  #     if user.new_record?
-  #       flash[:warning] = user.errors.full_messages.join('; ')
+      sign_in(user, user_session: session)
 
-  #       redirect_to signin_path and return
-  #     end
+      permited_params[:remember_me] == REMEMBER_VALUE ? remember(user) : forget(user)
 
-  #     if user.activated?
-  #       sign_in(user)
+      redirect_back_or(root_path, success: t('.successful_enter')) and return
+    end
 
-  #       if user.profile.blank?
-  #         redirect_to_new_profile(user) and return
-  #       end
+    flash[:danger] = operation.errors.full_message
 
-  #       redirect_back_or(user) and return
-  #     end
+    render :new, status: :unauthorized
+  end
 
-  #     user.create_activate_digest
-  #     user.send_activation_email
+  def destroy
+    sign_out if signed_in?
 
-  #     flash[:notice] = 'Please, check your mail to activate your account'
+    redirect_to root_path
+  end
 
-  #     redirect_to root_path and return
-  #   end
+  def omniauth
+    #     user = People::User.from_omniauth(request.env['omniauth.auth'])
 
-  #   private
+    #     if user.new_record?
+    #       flash[:warning] = user.errors.full_messages.join('; ')
 
-  #   def session_params
-  #     params.require(:session).permit(:email, :password, :remember_me)
-  #   end
+    #       redirect_to signin_path and return
+    #     end
+
+    #     if user.activated?
+    #       sign_in(user)
+
+    #       if user.profile.blank?
+    #         redirect_to_new_profile(user) and return
+    #       end
+
+    #       redirect_back_or(user) and return
+    #     end
+
+    #     user.create_activate_digest
+    #     user.send_activation_email
+
+    #     flash[:notice] = 'Please, check your mail to activate your account'
+
+    #     redirect_to root_path and return
+  end
 end

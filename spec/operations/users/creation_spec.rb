@@ -66,7 +66,7 @@ RSpec.describe Users::Creation do
     it 'validates blank params' do
       user_creation = described_class.call({})
 
-      expect(user_creation.errors.full_message).to include(Users::Creation::ABSENT_PARAMS)
+      expect(user_creation.errors.full_message).to include(I18n.t('api.v1.users.users.errors.blank_params'))
     end
 
     it 'validates role', role: 'admin' do
