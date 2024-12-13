@@ -38,7 +38,7 @@ RSpec.describe Api::V1::Users::UsersController, type: :controller do
       expect(subject).to set_flash[:info]
     end
 
-    it 'failes to create a new user' do
+    it 'fails to create a new user' do
       new_user_params[:user][:password] = new_user_params.dig(:user, :email)
 
       post :create, params: new_user_params

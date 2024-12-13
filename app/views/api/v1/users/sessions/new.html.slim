@@ -3,8 +3,7 @@
 
 .container
   section.main__block
-
-    h1 = t('.title')
+    h2.header = t('.title')
 
     = form_with url: signin_path, model: @session, id: 'new_session' do |f|
       div

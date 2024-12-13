@@ -37,7 +37,7 @@ RSpec.describe Api::V1::Users::AccountActivationsController, type: :controller d
   end
 
   describe 'failed request' do
-    it 'rediret to root_path' do
+    it 'redirets to root_path' do
       get :edit, params: activation_params
 
       expect(response).to have_http_status(:found)

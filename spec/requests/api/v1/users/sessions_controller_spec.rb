@@ -43,15 +43,13 @@ RSpec.describe Api::V1::Users::SessionsController, type: :controller do
       expect(subject).to set_flash[:success]
     end
 
-    #   it 'failes to create a new user' do
-    #     new_user_params[:user][:password] = new_user_params.dig(:user, :email)
+    it 'fails to create a new session', password: 'Ol12&*ola19' do
+      post :create, params: new_session_params
 
-    #     post :create, params: new_user_params
-
-    #     expect(response).to have_http_status(:bad_request)
-    #     expect(response).to render_template(:new)
-    #     expect(subject).to set_flash[:danger]
-    #     expect(User.find_by(email: email).present?).to be(false)
-    #   end
+      expect(response).to have_http_status(:unauthorized)
+      expect(response).to render_template(:new)
+      expect(subject).to set_flash[:danger]
+      expect(user.sessions.last).to be(nil)
+    end
   end
 end
