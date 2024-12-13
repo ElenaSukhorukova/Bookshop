@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UserMailer, '#account_activation' do
-  include_context 'mailers'
+  include_context 'when testing of a mailer'
 
   let(:user) { create(:user) }
   let(:email) { described_class.with(user: user).account_activation }

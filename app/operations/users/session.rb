@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Users
-  class Creation < Base::Class
+  class Session < Base::Class
     WATING_MINUTES = 15.minutes
     REMEMBER_VALUE = '1'
 
@@ -11,7 +11,7 @@ module Users
       return self unless valid?
 
       ActiveRecord::Base.transaction do
-        @session = user.build_session(session_params)
+        @session = user.sessions.build(session_params)
 
         return self if session.save
 
@@ -53,6 +53,8 @@ module Users
     end
 
     def validate_user_activation
+      return if user.blank?
+
       unless user.activated?
         errors.add(I18n.t('api.v1.users.sessions.errors.unactivated_account'))
 
@@ -69,7 +71,7 @@ module Users
     end
 
     def session_params
-      { uid: SecureRandom.uid }
+      { uid: SecureRandom.uuid }
     end
   end
 end

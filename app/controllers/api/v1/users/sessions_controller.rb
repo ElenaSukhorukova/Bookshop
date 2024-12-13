@@ -5,11 +5,13 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
 
   REMEMBER_VALUE = '1'
 
+  before_action :store_location, only: :new
+
   def new
     @session = Session.new
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     permited_params = params.permit!.to_h[:session] || {}
 
     operation = Users::Session.call(params: permited_params)
@@ -22,10 +24,7 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
 
       permited_params[:remember_me] == REMEMBER_VALUE ? remember(user) : forget(user)
 
-      binding.pry
-      # redirect_to_new_profile(user) and return if user.profile.blank?
-
-      # redirect_back_or(user) and return
+      redirect_back_or(root_path, success: t('.successful_enter')) and return
     end
 
     flash[:danger] = operation.errors.full_message
@@ -33,11 +32,11 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
     render :new, status: :unauthorized
   end
 
-  #   def destroy
-  #     sign_out if signed_in?
+  def destroy
+    sign_out if signed_in?
 
-  #     redirect_to root_path
-  #   end
+    redirect_to root_path
+  end
 
   def omniauth
     #     user = People::User.from_omniauth(request.env['omniauth.auth'])

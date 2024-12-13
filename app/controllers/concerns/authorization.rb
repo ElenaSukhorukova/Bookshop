@@ -1,7 +1,9 @@
 module Authorization
   extend ActiveSupport::Concern
 
-  included do
+  EXPIRING_TURM = 24.hours
+
+  included do # rubocop:disable Metrics/BlockLength
     include ActionController::Cookies
 
     helper_method :current_user
@@ -9,16 +11,16 @@ module Authorization
     private
 
     def sign_in(user, user_session: nil)
-      user_session ||= user.create_session(session_params)
+      user_session ||= user.sessions.create(session_params)
 
       return if user_session.blank?
 
       session[:session_uid] = user_session.uid
-      session[:expires_in] = 24.hours
+      session[:expiring_date] = Time.zone.now + EXPIRING_TURM
     end
 
-    def current_user
-      sign_out_by_session if session[:expires_in].present? && (session[:expires_in] - Time.zone.now).negative?
+    def current_user # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+      sign_out_by_session if session[:expiring_date].try(:<, Time.zone.now)
 
       user_session = define_user_session(session[:session_uid])
 
@@ -39,9 +41,9 @@ module Authorization
       @current_user
     end
 
-    # def signed_in?
-    #   current_user.present?
-    # end
+    def signed_in?
+      current_user.present?
+    end
 
     def sign_out
       forget(current_user) if current_user.present?
@@ -59,10 +61,8 @@ module Authorization
     def remember(user)
       user.remember
 
-      binding.pry
-
-      cookies.premanent.signed[:user_id] = user.id
-      cookies.premanent[:remember_token] = user.remember_token
+      cookies.permanent.signed[:user_id] = user.id
+      cookies.permanent[:remember_token] = user.remember_token
     end
 
     def forget(user)
@@ -77,7 +77,7 @@ module Authorization
     # end
 
     def session_params
-      { uid: SecureRandom.uid }
+      { uid: SecureRandom.uuid }
     end
 
     def define_user_session(session_uid)

@@ -1,6 +1,6 @@
 class Api::V1::Users::AccountActivationsController < Api::V1::ApplicationController
   def edit
-    user = User.find_by_token_for(:activation_token)
+    user = User.find_by_token_for(:activation_token, params[:id])
 
     if user.present? && !user.activated? &&
        user.authenticated?(:activation, params[:id])
@@ -9,14 +9,10 @@ class Api::V1::Users::AccountActivationsController < Api::V1::ApplicationControl
 
       sign_in(user)
 
-      flash[:success] = t('.activated')
-
-      # redirect_to_new_profile(user) and return
+      redirect_to(new_user_profile_path(user), success: t('.activated')) and return
     end
 
-    flash[:danger] = t('.activation_error', period: count_period(user))
-
-    redirect_to root_path
+    redirect_to root_path, danger: t('.activation_error', period: count_period(user))
   end
 
   private
@@ -24,6 +20,6 @@ class Api::V1::Users::AccountActivationsController < Api::V1::ApplicationControl
   def count_period(user)
     return if user.blank?
 
-    (Time.zone.now - user.created_at).ceil
+    15.minutes - (Time.zone.now - user.created_at).ceil.minutes
   end
 end

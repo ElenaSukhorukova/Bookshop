@@ -62,10 +62,12 @@ group :test do
   gem 'email_spec'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 6.1.0'
   gem 'rspec-sidekiq', '~> 5.0.0'
   gem 'rubocop-rspec', '~> 2.16.0', require: false
   gem 'selenium-devtools', '~> 0.122'
+  gem 'shoulda-matchers'
 end
 
 group :development do

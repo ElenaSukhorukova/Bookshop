@@ -14,7 +14,7 @@ module Validations
     end
 
     rule(:password) do
-      unless /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.match?(value)
+      unless /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{8,}$/.match?(value)
         key.failure(I18n.t('dry_validation.errors.user.format'))
       end
     end

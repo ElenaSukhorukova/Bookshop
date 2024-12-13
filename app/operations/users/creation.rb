@@ -5,10 +5,12 @@ module Users
     ABSENT_PARAMS = 'params is blank'
     WATING_MINUTES = 15.minutes
 
-    def call
+    attr_reader :user
+
+    def call # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       return self unless valid?
 
-      user = User.new(params)
+      @user = User.new(params)
 
       ActiveRecord::Base.transaction do
         unless user.save

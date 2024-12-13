@@ -8,7 +8,7 @@
       = f.hidden_field :role, value: 'customer'
       div
         = f.label :email, t('.form.email')
-        = f.email_field :email, value: @user.email
+        = f.email_field :email, value: @user&.email
       div
         = f.label :password, t('.form.password')
         = f.password_field :password

@@ -10,7 +10,7 @@ class AdminConstraint
 end
 
 Rails.application.routes.draw do
-  mount Sidekiq::Web => '/sidekiq', constraints: AdminConstraint.new
+  mount Sidekiq::Web => '/sidekiq' # , constraints: AdminConstraint.new
 
   scope '(:locale)', locale: /#{I18n.available_locales.join('|')}/ do
     root to: 'api/v1/external/store#shop_window'
@@ -24,11 +24,11 @@ Rails.application.routes.draw do
           # get '/auth/:provider/callback', to: 'sessions#omniauth'
 
           resources :account_activations, only: %i[edit]
-          # resources :password_resets, only: %i[new create update]
+          resources :password_resets, only: %i[new create update]
           # resources :user_mfa_session, only: %i[new create]
 
           resources :users, except: %i[index destroy] do
-            # resources :profiles, except: %i[index], as: :customers, shallow: true
+            resources :profiles, except: %i[index], shallow: true
           end
         end
       end

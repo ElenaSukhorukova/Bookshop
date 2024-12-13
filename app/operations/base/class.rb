@@ -5,7 +5,7 @@ module Base
     attr_reader :errors, :params
 
     def initialize(params)
-      @params = params[:params]
+      @params = params[:params] || {}
 
       @errors = Errors.new(self.class.to_s)
     end

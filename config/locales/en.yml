@@ -39,6 +39,8 @@ en:
               email: Email
               password: Password
               remember_me: Remember me on this computer
+          create:
+            successful_enter: Welcome to the Bookshop
 
       external:
         store:

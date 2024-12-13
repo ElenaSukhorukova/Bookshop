@@ -7,9 +7,9 @@ module User::Authorization
     def remember
       remember_token = generate_token_for(:remember_token)
 
-      self.remeber_token = remember_token
+      self.remember_token = remember_token
 
-      update(remember_digect: User.digest(remember_token))
+      update(remember_digest: User.digest(remember_token))
     end
 
     #     # TODO rewrite User.first.signed_id expires_in: 15.minutes, purpose: :reset_digest

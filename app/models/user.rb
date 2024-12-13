@@ -16,7 +16,9 @@
 class User < ApplicationRecord
   include User::Authorization
 
-  generates_token_for :remeber_token, expires_in: 14.days
+  attribute :remember_token, :string
+
+  generates_token_for :remember_token, expires_in: 14.days
   generates_token_for :activation_token, expires_in: 15.minutes
 
   has_secure_password
