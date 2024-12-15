@@ -1,19 +1,27 @@
 # frozen_string_literal: true
 
-# t.boolean "activated", default: false
+# t.string "email", null: false
+# t.string "password_digest"
+# t.string "remember_digest"
+# t.boolean "activated", default: false, null: false
 # t.datetime "activated_at"
 # t.string "activation_digest"
-# t.string "email"
-# t.string "password_digest"
-# t.string "provider"
-# t.jsonb "provider_settings"
-# t.string "remember_digest"
 # t.string "reset_digest"
 # t.datetime "reset_sent_at"
+# t.string "provider"
+# t.jsonb "provider_settings"
+# t.datetime "created_at", null: false
+# t.datetime "updated_at", null: false
 # t.enum "role", default: "customer", enum_type: "user_role"
+# t.datetime "deleted_at"
+# t.string "google_secret"
+# t.integer "mfa_secret"
+# t.index ["deleted_at"], name: "index_users_on_deleted_at"
 # t.index ["email"], name: "unique_emails", unique: true
 
 class User < ApplicationRecord
+  acts_as_google_authenticated lookup_token: :mfa_secret, encrypt_secrets: true
+
   include User::Authorization
 
   attribute :remember_token, :string

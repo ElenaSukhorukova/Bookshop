@@ -39,7 +39,7 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
   end
 
   def omniauth
-    #     user = People::User.from_omniauth(request.env['omniauth.auth'])
+    user = User.from_omniauth(request.env['omniauth.auth'])
 
     #     if user.new_record?
     #       flash[:warning] = user.errors.full_messages.join('; ')
@@ -62,6 +62,6 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
 
     #     flash[:notice] = 'Please, check your mail to activate your account'
 
-    #     redirect_to root_path and return
+    redirect_to root_path
   end
 end

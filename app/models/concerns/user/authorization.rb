@@ -60,32 +60,32 @@ module User::Authorization
       BCrypt::Password.create(string, cost: cost)
     end
 
-    #     def from_omniauth(auth)
-    #       info = auth.info
+    def from_omniauth(auth)
+      #       info = auth.info
 
-    #       user = self.find_or_initialize_by(
-    #         uid: auth.uid,
-    #         provider: auth.provider,
-    #         email: info.email
-    #       )
+      #       user = self.find_or_initialize_by(
+      #         uid: auth.uid,
+      #         provider: auth.provider,
+      #         email: info.email
+      #       )
 
-    #       if user.new_record?
-    #         password = self.new_token
-    #         user.password = password
-    #         user.password_confirmation = password
-    #         user.provider_settings[:full_name] = info.name
-    #         user.provider_settings[:avatar_url] = info.image
+      #       if user.new_record?
+      #         password = self.new_token
+      #         user.password = password
+      #         user.password_confirmation = password
+      #         user.provider_settings[:full_name] = info.name
+      #         user.provider_settings[:avatar_url] = info.image
 
-    #         user.save
+      #         user.save
 
-    #         return user
-    #       end
+      #         return user
+      #       end
 
-    #       if user.provider_settings.blank?
-    #         user.update(provider_settings: { full_name: info.name, avatar_url: info.image })
-    #       end
+      #       if user.provider_settings.blank?
+      #         user.update(provider_settings: { full_name: info.name, avatar_url: info.image })
+      #       end
 
-    #       user
-    #     end
+      #       user
+    end
   end
 end

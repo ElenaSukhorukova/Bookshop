@@ -87,5 +87,13 @@ RSpec.describe Users::Updation do
         expect(operation.errors.full_message).to include(I18n.t('api.v1.users.sessions.errors.unactivated_account'))
       end
     end
+
+    describe 'invalid_token' do
+      it 'validates activated user' do
+        operation = described_class.call(params)
+
+        expect(operation.errors.full_message).to include(I18n.t('api.v1.users.password_resets.errors.invalid_token'))
+      end
+    end
   end
 end

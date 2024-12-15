@@ -16,10 +16,6 @@ class UserMailer < ApplicationMailer
 
     @token = $redis.get("#{@user.id}_reset_token")
 
-    puts '--------------------'
-    pp @token
-    puts '--------------------'
-
     mail to: @user.email, subject: t('.subject')
   end
 end
