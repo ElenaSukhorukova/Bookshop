@@ -24,7 +24,7 @@ Rails.application.routes.draw do
           # get '/auth/:provider/callback', to: 'sessions#omniauth'
 
           resources :account_activations, only: %i[edit]
-          resources :password_resets, only: %i[new create update]
+          resources :password_resets, only: %i[new create edit update]
           # resources :user_mfa_session, only: %i[new create]
 
           resources :users, except: %i[index destroy] do

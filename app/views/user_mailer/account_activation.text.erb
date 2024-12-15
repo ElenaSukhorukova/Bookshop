@@ -1,3 +1,3 @@
-Hi, <%= "#{@user.email}" %>
-Click on the link to activate your account:
+<%= t('.title', email: @user.email) %>
+<%= t('.click_on') %>
 <%= edit_account_activation_url(id: @user.signed_id(purpose: :activation_token), locale: I18n.locale) %>

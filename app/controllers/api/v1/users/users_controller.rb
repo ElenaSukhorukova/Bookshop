@@ -11,7 +11,7 @@ class Api::V1::Users::UsersController < Api::V1::ApplicationController
   end
 
   def create
-    operation = Users::Creation.call(params: params.permit!.to_h[:user])
+    operation = Users::Creation.call(params: permit_params(:user))
     @user = operation.user
 
     unless operation.success?

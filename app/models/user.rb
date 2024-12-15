@@ -20,6 +20,9 @@ class User < ApplicationRecord
 
   generates_token_for :remember_token, expires_in: 14.days
   generates_token_for :activation_token, expires_in: 15.minutes
+  generates_token_for :reset_token, expires_in: 15.minutes do
+    password_salt&.last(10)
+  end
 
   has_secure_password
   has_secure_password :recovery_password, validations: false

@@ -13,21 +13,24 @@ ru:
 
   dry_validation:
     errors:
-      user:
-        format: 'невалидный формат'
-        password_exclusion: не должен совпадать с вашим адресом электронной почты
-        password_similarity: должeн быть таким же, как пароль
-        unsupported_role: не поддерживается в этом запросе
+      format: 'невалидный формат'
+      password_exclusion: не должен совпадать с вашим адресом электронной почты
+      password_similarity: должeн быть таким же, как пароль
+      unsupported_role: не поддерживается в этом запросе
 
   api:
     v1:
       users:
         password_resets:
-          new:
-            title: Сбросить пароль
-            form:
-              email: Электронная почта
-              submit: Отправить
+          errors:
+            invalid_token: Токен сброса пароля недействителен
+          create:
+            check_email: Письмо с инструкцией по сбросу пароля было отправлено
+            invalid_email: Адрес электронной почты не найден
+          update:
+            password_reset: Пароль был сброшен
+          check_expiration:
+            error: Срок действия сброса пароля истек
         account_activations:
           edit:
             activated: Ваш аккаунт был активирован
@@ -35,12 +38,6 @@ ru:
         users:
           errors:
             blank_params: параметры пусты
-          new:
-            title: Новый пользователь
-            form:
-              email: Электронная почта
-              password: Пароль
-              password_confirmation: Подтверждение пароля
           create:
             check_email: Please, check your mail to activate your account
         sessions:
@@ -48,30 +45,44 @@ ru:
             blank_params: параметры пусты
             invalid_password_or_email: Неверный адрес электронной почты или пароль
             unactivated_account: Ваша учетная запись не активирована. Проверьте свою электронную почту на наличие ссылки для активации.
-          new:
-            title: Войти
-            form:
-              email: Электронная почта
-              password: Пароль
-              remember_me: Запомнить меня на этом компьюторе
           create:
             successful_enter: Добро пожаловать в книжный магазин
 
-      external:
-        store:
-          shop_window:
-            title: Витрина
-            greeting: Добро пожаловать в книжный магазин
-            goods: Наши товары
-
-  shared:
-    navbar:
-      sing_out: Выйти
-      sing_in: Войти
-      sing_up: Зарегистрироваться
+  views:
+    forms:
+      email: Электронная почта
+      password: Пароль
+      password_confirmation: Подтверждение пароля
+      remember_me: Запомнить меня на этом компьюторе
+    password_resets:
+      new:
+        title: Сбросить пароль
+        submit: Отправить
+      edit:
+        title: Обновление пароля
+        submit: Обновить пароль
+    session:
+      new:
+        title: Войти
+        link: Я забыл свой пароль
+    users:
+      new:
+        title: Новый пользователь
+    shared:
+      navbar:
+        sing_out: Выйти
+        sing_in: Войти
+        sing_up: Зарегистрироваться
 
   user_mailer:
     account_activation:
       subject: Активация аккаунта
+      title: Здравствуйте, %{email}
+      click_on: Нажмите на ссылку, чтобы активировать свою учетную запись
     password_reset:
       subject: Сброс пароля
+      title: Здравствуйте, %{email}
+      click_on: Нажмите на ссылку, чтобы сбросить пароль
+      link: Сброс пароля
+      expiration_note_html: "<p>Срок действия этой ссылки истекает через 15 минут.</p>\
+        <p>Если вы не запрашивали сброс пароля, проигнорируйте это письмо, и ваш пароль останется прежним.</p>"

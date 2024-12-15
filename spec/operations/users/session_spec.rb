@@ -33,7 +33,7 @@ RSpec.describe Users::Session do
     it 'validates blank params' do
       operation = described_class.call({})
 
-      expect(operation.errors.full_message).to include(I18n.t('api.v1.users.sessions.errors.blank_params'))
+      expect(operation.errors.full_message).to include(I18n.t('api.v1.users.users.errors.blank_params'))
     end
 
     it 'validates blank user', email: 'scott@pouros-beahan.example' do

@@ -1,5 +1,5 @@
 module Validations
-  class SessionSchema < Dry::Validation::Contract
+  class SessionSchema < ApplicationContract
     schema do
       required(:email).filled(:str?)
       required(:password).filled(:str?)

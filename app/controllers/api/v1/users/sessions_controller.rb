@@ -11,8 +11,8 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
     @session = Session.new
   end
 
-  def create # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    permited_params = params.permit!.to_h[:session] || {}
+  def create # rubocop:disable Metrics/AbcSize
+    permited_params = permit_params(:session)
 
     operation = Users::Session.call(params: permited_params)
 
