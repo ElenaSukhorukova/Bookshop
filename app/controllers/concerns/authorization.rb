@@ -72,10 +72,6 @@ module Authorization
       cookies.delete(:remember_token)
     end
 
-    # def current_user?(user)
-    #   user == current_user
-    # end
-
     def session_params
       { uid: SecureRandom.uuid }
     end

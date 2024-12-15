@@ -21,11 +21,11 @@ Rails.application.routes.draw do
           get  :signin, to: 'sessions#new'
           post :signin, to: 'sessions#create'
           post :signout, to: 'sessions#destroy'
-          # get '/auth/:provider/callback', to: 'sessions#omniauth'
+          get '/auth/:provider/callback', to: 'sessions#omniauth'
 
           resources :account_activations, only: %i[edit]
-          resources :password_resets, only: %i[new create update]
-          # resources :user_mfa_session, only: %i[new create]
+          resources :password_resets, only: %i[new create edit update]
+          resources :user_mfa_session, only: %i[new create]
 
           resources :users, except: %i[index destroy] do
             resources :profiles, except: %i[index], shallow: true

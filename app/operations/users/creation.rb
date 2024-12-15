@@ -2,7 +2,6 @@
 
 module Users
   class Creation < Base::Class
-    ABSENT_PARAMS = 'params is blank'
     WATING_MINUTES = 15.minutes
 
     attr_reader :user

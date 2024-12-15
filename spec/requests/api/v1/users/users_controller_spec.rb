@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::Users::UsersController, type: :controller do
   include_context 'when it needed headers'
-  include_context 'when activated user is present'
+  include_context 'when it needs an email and password'
 
   let(:new_user_params) do
     {

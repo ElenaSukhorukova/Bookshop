@@ -4,21 +4,24 @@ en:
 
   dry_validation:
     errors:
-      user:
-        format: 'has invalid format'
-        password_exclusion: should not be the same as your email
-        password_similarity: should be the same as password
-        unsupported_role: is not supported through this request
+      format: 'has invalid format'
+      password_exclusion: should not be the same as your email
+      password_similarity: should be the same as password
+      unsupported_role: is not supported through this request
 
   api:
     v1:
       users:
         password_resets:
-          new:
-            title: Reset password
-            form:
-              email: Email
-              submit: Send
+          errors:
+            invalid_token: Reset token of the password is invalid
+          create:
+            check_email: Email with password reset instruction was sent
+            invalid_email: Email address was not found
+          update:
+            password_reset: Password has been reset
+          check_expiration:
+            error: Password reset has expired
         account_activations:
           edit:
             activated: Your account was activated
@@ -26,25 +29,13 @@ en:
         users:
           errors:
             blank_params: params is blank
-          new:
-            title: New user
-            form:
-              email: Email
-              password: Password
-              password_confirmation: Pasword confirmation
+            invalid_params: params is invalid
           create:
             check_email: Please, check your mail to activate your account
         sessions:
           errors:
-            blank_params: params is blank
             invalid_password_or_email: Invalid email or password
             unactivated_account: Your account is not activated. Please check your email for the activation link.
-          new:
-            title: Sign in
-            form:
-              email: Email
-              password: Password
-              remember_me: Remember me on this computer
           create:
             successful_enter: Welcome to the Bookshop
 
@@ -55,15 +46,42 @@ en:
             greeting: Welcome to Bookstore
             goods: Our goods
 
-  shared:
-    navbar:
-      sing_out: Sing out
-      sing_in: Sing in
-      sing_up: Sing up
+  views:
+    forms:
+      email: Email
+      password: Password
+      password_confirmation: Pasword confirmation
+      remember_me: Remember me on this computer
+    password_resets:
+      new:
+        title: Reset password
+        submit: Send
+      edit:
+        title: Password update
+        submit: Update password
+    sessions:
+      new:
+        title: Sign in
+        link: I forgot my password
+    users:
+      new:
+        title: New user
+    shared:
+      navbar:
+        sing_out: Sing out
+        sing_in: Sing in
+        sing_up: Sing up
 
   user_mailer:
     account_activation:
       subject: Account activation
       link: Activate account
+      title: Hello, %{email}
+      click_on: Click on the link to activate your account
     password_reset:
       subject: Password reset
+      title: Hello, %{email}
+      click_on: Click on the link to reset password
+      link: Reset password
+      expiration_note_html: "<p>This link will expire in 15 minutes</p>\
+        <p>If you did not request your password to be reset, please ignore this email and your password will stay as it is.</p>"

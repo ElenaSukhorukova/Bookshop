@@ -14,6 +14,8 @@ class UserMailer < ApplicationMailer
   def password_reset
     @user = params[:user]
 
+    @token = $redis.get("#{@user.id}_reset_token")
+
     mail to: @user.email, subject: t('.subject')
   end
 end

@@ -1,68 +1,49 @@
 class Api::V1::Users::PasswordResetsController < Api::V1::ApplicationController
-  #   before_action :get_user, :valid_user, :check_expiration, only: %i[edit update]
+  before_action :get_user, :check_expiration, only: %i[edit update]
 
   def new; end
 
-  #   def create
-  #     binding.pry
-  #     @user = User.find_by_email(params.dig(:password_reset, :email))
+  def create
+    @user = User.find_by(email: params.dig(:password_reset, :email))
 
-  #     if @user
-  #       @user.create_reset_digest
-  #       @user.send_password_reset_email
+    if @user.present?
+      @user.create_reset_digest
+      @user.send_password_reset_email
 
-  #       flash[:info] = 'Email was sent with password reset instruction'
+      redirect_to(root_path, info: t('.check_email')) and return
+    end
 
-  #       redirect_to root_path and return
-  #     end
+    flash[:danger] = t('.invalid_email')
 
-  #     flash.now[:danger] = 'Email addewss was not found'
-  #     render :new
-  #   end
+    render :new, status: :unprocessable_entity
+  end
 
-  #   def edit; end
+  def edit; end
 
-  #   def update
-  #     if @user.update(user_params)
-  #       login_in @user
-  #       flash[:success] = 'Password has been reset'
+  def update
+    permitted_params = permit_params(:password_reset).merge(id: params[:id])
+    operation = Users::Updation.call(params: permitted_params)
 
-  #       redirect_to @user and return
-  #     end
+    if operation.success?
+      sign_in(@user)
 
-  #     if password_blank?
-  #       flash.now[:danger] = 'Password can\'t be blank'
-  #     end
+      redirect_to(root_path, success: t('.password_reset')) and return
+    end
 
-  #     render :edit
-  #   end
+    flash[:danger] = operation.errors.full_message
 
-  #   private
+    render :edit, status: :unprocessable_entity
+  end
 
-  #   def get_user
-  #     @user = User.find_by_email(params[:email])
-  #   end
+  private
 
-  #   def valid_user
-  #     return if (@user && @user.activated? &&
-  #               @user.authenticated?(:reset, params[:id]))
+  def get_user
+    @user = User.find_by_token_for(:reset_token, params[:id])
+  end
 
-  #     redirect_to root_path
-  #   end
+  def check_expiration
+    return if @user.present?
 
-  #   def check_expiration
-  #     return unless @user.password_reset_expired?
-
-  #     flash[:danger] = 'Password reset has expired'
-
-  #     redirect_to new_password_reset_path
-  #   end
-
-  #   def user_params
-  #     params.require(:user).permit(:password, :password_confirmation)
-  #   end
-
-  #   def password_blank?
-  #     params.dig(:user, :password).blank?
-  #   end
+    redirect_to new_password_reset_path, danger: t('.error')
+  end
 end

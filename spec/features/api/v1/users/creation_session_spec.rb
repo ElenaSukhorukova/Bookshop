@@ -2,17 +2,18 @@ require 'rails_helper'
 
 RSpec.describe 'Sessions', type: :feature do
   include_context 'when activated user is present'
+  include_context 'when it needs an email and password'
 
   describe 'new' do
     it 'checks an error message' do
       visit signin_path(locale: 'en')
 
-      expect(page).to have_content I18n.t('api.v1.users.sessions.new.title')
+      expect(page).to have_content I18n.t('views.sessions.new.title')
 
       within('#new_session') do
-        fill_in user_form_interpolate(:email), with: email
-        fill_in user_form_interpolate(:password), with: password
-        check user_form_interpolate(:remember_me)
+        fill_in I18n.t('views.forms.email'), with: email
+        fill_in I18n.t('views.forms.password'), with: password
+        check I18n.t('views.forms.remember_me')
       end
 
       click_button 'Create Session'
@@ -24,18 +25,22 @@ RSpec.describe 'Sessions', type: :feature do
       visit signin_path(locale: 'en')
 
       within('#new_session') do
-        fill_in user_form_interpolate(:email), with: user.email
-        fill_in user_form_interpolate(:password), with: user.password
-        check user_form_interpolate(:remember_me)
+        fill_in I18n.t('views.forms.email'), with: user.email
+        fill_in I18n.t('views.forms.password'), with: user.password
+        check I18n.t('views.forms.remember_me')
       end
 
       click_button 'Create Session'
 
       expect(page).to have_content I18n.t('api.v1.users.sessions.create.successful_enter')
     end
-  end
 
-  def user_form_interpolate(field)
-    I18n.t field, scope: %i[api v1 users sessions new form]
+    it 'checks reset password link' do
+      visit signin_path(locale: 'en')
+
+      find_link(I18n.t('views.sessions.new.link')).click
+
+      expect(page).to have_content I18n.t('views.password_resets.new.title')
+    end
   end
 end
