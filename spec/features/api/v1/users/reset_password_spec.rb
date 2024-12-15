@@ -21,59 +21,49 @@ RSpec.describe 'Sessions', type: :feature do
 
   describe 'new' do
     it 'checks an error message' do
-      visit new_password_reset_path
+      visit new_password_reset_path(locale: 'en')
 
-      expect(page).to have_content I18n.t('views.password_reset.new.title')
+      expect(page).to have_content I18n.t('views.password_resets.new.title')
 
-      #   within('#new_session') do
-      #     fill_in I18n.t('views.forms.email'), with: email
-      #     fill_in I18n.t('views.forms.password'), with: password
-      #     check I18n.t('views.forms.remember_me')
-      #   end
+      within('#password_reset') do
+        fill_in I18n.t('views.forms.email'), with: email
+      end
+      click_button I18n.t('views.password_resets.new.submit')
 
-      #   click_button 'Create Session'
-
-      #   expect(page).to have_content I18n.t('api.v1.users.sessions.errors.invalid_password_or_email')
+      expect(page).to have_content I18n.t('api.v1.users.password_resets.create.invalid_email')
     end
 
-    # it 'checks redirection and flash' do
-    #   visit signin_path(locale: 'en')
+    it 'checks redirection and flash' do
+      visit new_password_reset_path(locale: 'en')
 
-    #   within('#new_session') do
-    #     fill_in I18n.t('views.forms.email'), with: user.email
-    #     fill_in I18n.t('views.forms.password'), with: user.password
-    #     check I18n.t('views.forms.remember_me')
-    #   end
+      within('#password_reset') do
+        fill_in I18n.t('views.forms.email'), with: user.email
+      end
+      click_button I18n.t('views.password_resets.new.submit')
 
-    #   click_button 'Create Session'
-
-    #   expect(page).to have_content I18n.t('api.v1.users.sessions.create.successful_enter')
-    # end
-
-    # it 'checks reset password link' do
-    #   visit signin_path(locale: 'en')
-
-    #   find_link(I18n.t('views.sessions.new.link')).click
-
-    #   expect(page).to have_content I18n.t('views.password_resets.new.title')
-    # end
+      expect(page).to have_content I18n.t('api.v1.users.password_resets.create.check_email')
+    end
   end
 
   describe '#edit' do
     before do
-      allow(User).to receive(:find_by_token_for).with(:retest_token, token).and_return(user)
+      allow(User).to receive(:find_by_token_for).with(:reset_token, token).and_return(user)
+      allow(User).to receive(:find_by).with(email: user.email).and_return(user)
 
-      allow(user).to receive(:authenticated?).and_return(true)
+      allow(user).to receive(:authenticated?).with(:reset, token).and_return(true)
     end
-    # visit edit_password_reset_url(params)
+
+    it 'checks success flash' do
+      visit edit_password_reset_url(params)
+
+      within('#edit_password') do
+        fill_in I18n.t('views.forms.password'), with: password
+        fill_in I18n.t('views.forms.password_confirmation'), with: password
+      end
+
+      click_button I18n.t('views.password_resets.edit.submit')
+
+      expect(page).to have_content I18n.t('api.v1.users.password_resets.update.password_reset')
+    end
   end
 end
-
-# h1.header = t('views.password_resets.new.title')
-
-# = form_for(:password_reset, url: password_resets_path) do |f|
-#   div
-#     = f.label :email, t('views.forms.email')
-#     = f.email_field :email
-#   div
-#     = f.submit t('views.password_resets.new.submit')

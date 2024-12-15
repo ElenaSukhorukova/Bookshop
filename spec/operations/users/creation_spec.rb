@@ -20,7 +20,7 @@ RSpec.describe Users::Creation do
   end
 
   describe '#call' do
-    it 'creates new user successfully' do
+    it 'creates a new user successfully' do
       described_class.call(params)
 
       user = User.find_by(email: params.dig(:params, :email))
@@ -29,7 +29,7 @@ RSpec.describe Users::Creation do
       expect(DeletionUnactivatedUser).to have_enqueued_sidekiq_job
     end
 
-    it 'validates email format', email: 'wenmorar.example' do
+    it 'validates an email format', email: 'wenmorar.example' do
       user_creation = described_class.call(params)
 
       user = User.find_by(email: params.dig(:params, :email))
@@ -38,7 +38,7 @@ RSpec.describe Users::Creation do
       expect(user_creation.errors.full_message).to include(I18n.t('dry_validation.errors.format'))
     end
 
-    it 'validates password format', password: '12345678' do
+    it 'validates a password format', password: '12345678' do
       user_creation = described_class.call(params)
 
       user = User.find_by(email: params.dig(:params, :email))
@@ -71,7 +71,7 @@ RSpec.describe Users::Creation do
       expect(user_creation.errors.full_message).to include(I18n.t('api.v1.users.users.errors.blank_params'))
     end
 
-    it 'validates role', role: 'admin' do
+    it 'validates a role', role: 'admin' do
       user_creation = described_class.call(params)
 
       user = User.find_by(email: params.dig(:params, :email))

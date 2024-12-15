@@ -32,7 +32,7 @@ class Api::V1::Users::PasswordResetsController < Api::V1::ApplicationController
 
     flash[:danger] = operation.errors.full_message
 
-    render :edit
+    render :edit, status: :unprocessable_entity
   end
 
   private

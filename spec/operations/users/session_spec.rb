@@ -36,13 +36,13 @@ RSpec.describe Users::Session do
       expect(operation.errors.full_message).to include(I18n.t('api.v1.users.users.errors.blank_params'))
     end
 
-    it 'validates blank user', email: 'scott@pouros-beahan.example' do
+    it 'validates a blank user', email: 'scott@pouros-beahan.example' do
       operation = described_class.call(params)
 
       expect(operation.errors.full_message).to include(I18n.t('api.v1.users.sessions.errors.invalid_password_or_email'))
     end
 
-    it 'validates wrong password', password: 'Ol12&*ola19' do
+    it 'validates a wrong password', password: 'Ol12&*ola19' do
       operation = described_class.call(params)
 
       expect(operation.errors.full_message).to include(I18n.t('api.v1.users.sessions.errors.invalid_password_or_email'))
@@ -53,7 +53,7 @@ RSpec.describe Users::Session do
         user.update(activated: false)
       end
 
-      it 'validates activated user' do
+      it 'validates an activated user' do
         operation = described_class.call(params)
 
         expect(operation.errors.full_message).to include(I18n.t('api.v1.users.sessions.errors.unactivated_account'))

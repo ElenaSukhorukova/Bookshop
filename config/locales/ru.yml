@@ -38,6 +38,7 @@ ru:
         users:
           errors:
             blank_params: параметры пусты
+            invalid_params: параметры недействительны
           create:
             check_email: Please, check your mail to activate your account
         sessions:

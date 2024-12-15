@@ -5,7 +5,7 @@
   section.main__block
     h1.header = t('views.password_resets.edit.title')
 
-    = form_for(:password_reset, url: password_reset_path(params[:id]), method: 'put') do |f|
+    = form_for(:password_reset, url: password_reset_path(params[:id]), method: 'put', id: 'edit_password') do |f|
       = f.hidden_field :email, value: @user.email
       div
         = f.label :password, t('views.forms.password')
