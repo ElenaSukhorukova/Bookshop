@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
           resources :account_activations, only: %i[edit]
           resources :password_resets, only: %i[new create edit update]
-          resources :user_mfa_session, only: %i[new create]
+          resources :mfa_sessions, only: %i[new create]
 
           resources :users, except: %i[index destroy] do
             resources :profiles, except: %i[index], shallow: true

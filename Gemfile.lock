@@ -100,7 +100,6 @@ GEM
       xpath (~> 3.2)
     childprocess (5.1.0)
       logger (~> 1.5)
-    chunky_png (1.4.0)
     coderay (1.1.3)
     concurrent-ruby (1.3.4)
     connection_pool (2.4.1)
@@ -186,12 +185,6 @@ GEM
       thor (>= 0.14.0, < 2)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-authenticator-rails (3.4.3)
-      actionpack
-      activerecord
-      rails
-      rotp (>= 5.0, < 7.0)
-      rqrcode
     hashie (5.0.0)
     htmlentities (4.3.4)
     i18n (1.14.6)
@@ -352,11 +345,6 @@ GEM
     reline (0.5.1)
       io-console (~> 0.5)
     rexml (3.3.9)
-    rotp (6.3.0)
-    rqrcode (2.2.0)
-      chunky_png (~> 1.0)
-      rqrcode_core (~> 1.0)
-    rqrcode_core (1.2.0)
     rspec-core (3.13.2)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.3)
@@ -497,7 +485,6 @@ DEPENDENCIES
   factory_bot_rails
   faker
   figaro
-  google-authenticator-rails
   importmap-rails
   jbuilder
   jquery-rails

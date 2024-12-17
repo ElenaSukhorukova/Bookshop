@@ -11,7 +11,7 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
     @session = Session.new
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     permited_params = permit_params(:session)
 
     operation = Users::Session.call(params: permited_params)
@@ -39,29 +39,23 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
   end
 
   def omniauth
+    puts '---------------------------'
+    pp request.env['omniauth.auth']
+    puts '---------------------------'
     user = User.from_omniauth(request.env['omniauth.auth'])
 
-    #     if user.new_record?
-    #       flash[:warning] = user.errors.full_messages.join('; ')
+    redirect_to(signin_path, danger: user.errors.full_messages.join('; ')) and return if user.new_record?
 
-    #       redirect_to signin_path and return
-    #     end
+    if user.activated?
+      sign_in(user)
 
-    #     if user.activated?
-    #       sign_in(user)
+      redirect root_path and return
+      # redirect new_user_profile_path(user) and return
+      # redirect_back_or(user) and return
+    end
 
-    #       if user.profile.blank?
-    #         redirect_to_new_profile(user) and return
-    #       end
+    user.organize_activation
 
-    #       redirect_back_or(user) and return
-    #     end
-
-    #     user.create_activate_digest
-    #     user.send_activation_email
-
-    #     flash[:notice] = 'Please, check your mail to activate your account'
-
-    redirect_to root_path
+    redirect_to root_path, info: t('api.v1.users.users.create.check_email')
   end
 end

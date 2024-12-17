@@ -15,9 +15,9 @@ en:
         password_resets:
           errors:
             invalid_token: Reset token of the password is invalid
+            invalid_email: Email address was not found
           create:
             check_email: Email with password reset instruction was sent
-            invalid_email: Email address was not found
           update:
             password_reset: Password has been reset
           check_expiration:
@@ -66,6 +66,9 @@ en:
     users:
       new:
         title: New user
+    mfa_sessions:
+      new:
+        title: Google session
     shared:
       navbar:
         sing_out: Sing out

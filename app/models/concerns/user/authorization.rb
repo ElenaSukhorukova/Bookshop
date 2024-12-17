@@ -3,7 +3,7 @@
 module User::Authorization
   extend ActiveSupport::Concern
 
-  included do
+  included do # rubocop:disable Metrics/BlockLength
     def remember
       remember_token = generate_token_for(:remember_token)
 
@@ -51,6 +51,16 @@ module User::Authorization
 
       update!(activation_digest: User.digest(activation_token))
     end
+
+    def initiate_activate_process
+      create_activate_digest
+      send_activation_email
+    end
+
+    def initiate_reset_password_process
+      create_reset_digest
+      send_password_reset_email
+    end
   end
 
   class_methods do
@@ -61,31 +71,29 @@ module User::Authorization
     end
 
     def from_omniauth(auth)
-      #       info = auth.info
+      info = auth.info
 
-      #       user = self.find_or_initialize_by(
-      #         uid: auth.uid,
-      #         provider: auth.provider,
-      #         email: info.email
-      #       )
+      user = find_or_initialize_by(
+        uid: auth.uid,
+        provider: auth.provider,
+        email: info.email
+      )
 
-      #       if user.new_record?
-      #         password = self.new_token
-      #         user.password = password
-      #         user.password_confirmation = password
-      #         user.provider_settings[:full_name] = info.name
-      #         user.provider_settings[:avatar_url] = info.image
+      if user.new_record?
+        password = SecureRandom.base64(8)
 
-      #         user.save
+        user.password = password
+        user.password_confirmation = password
+        user.provider_settings = { full_name: info.name, avatar_url: info.image }
 
-      #         return user
-      #       end
+        user.save
 
-      #       if user.provider_settings.blank?
-      #         user.update(provider_settings: { full_name: info.name, avatar_url: info.image })
-      #       end
+        return user
+      end
 
-      #       user
+      user.update(provider_settings: { full_name: info.name, avatar_url: info.image }) if user.provider_settings.blank?
+
+      user
     end
   end
 end

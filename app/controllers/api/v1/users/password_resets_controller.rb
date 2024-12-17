@@ -4,16 +4,11 @@ class Api::V1::Users::PasswordResetsController < Api::V1::ApplicationController
   def new; end
 
   def create
-    @user = User.find_by(email: params.dig(:password_reset, :email))
+    operation = Users::PasswordReset.call(params: permit_params(:password_reset))
 
-    if @user.present?
-      @user.create_reset_digest
-      @user.send_password_reset_email
+    redirect_to(root_path, info: t('.check_email')) and return if operation.success?
 
-      redirect_to(root_path, info: t('.check_email')) and return
-    end
-
-    flash[:danger] = t('.invalid_email')
+    flash[:danger] = operation.errors.full_message
 
     render :new, status: :unprocessable_entity
   end

@@ -3,6 +3,7 @@
 module Users
   class Creation < Base::Class
     WATING_MINUTES = 15.minutes
+    WAITING_SECONDS = 2.seconds
 
     attr_reader :user
 
@@ -18,9 +19,9 @@ module Users
           return self
         end
 
-        user.send_activation_email
+        user.initiate_activate_process
 
-        DeletionUnactivatedUser.perform_in(WATING_MINUTES, user.id)
+        DeletionUnactivatedUserWorker.perform_in(WATING_MINUTES, user.id)
       end
 
       self
