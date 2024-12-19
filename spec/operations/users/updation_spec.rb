@@ -16,72 +16,59 @@ RSpec.describe Users::Updation do
     confirm_pass = ex.metadata[:invalid_confirm_password] ? user.password : password
 
     {
-      params: {
-        email: user_email,
-        password: user_password,
-        password_confirmation: confirm_pass,
-        id: token
-      }
+      email: user_email,
+      password: user_password,
+      password_confirmation: confirm_pass,
+      id: $redis.get("#{user.id}_reset_token")
     }
   end
 
-  let(:token) do
-    'eyJfcmFpbHMiOnsiZGF0YSI6WzE4LCJHbFdZZ1dObC91Il0sImV'\
-    '4cCI6IjIwMjQtMTItMTVUMDc6NDk6MTYuNDcyWiIsInB1ciI6IlV'\
-    'zZXJcbnJlc2V0X3Rva2VuXG45MDAifX0=--46ae1ac6cb5297cbf'\
-    'd3e04a2f511c2de8081b70f'
+  before do
+    user.create_reset_digest
   end
 
   describe 'success pocess' do
     before do
-      allow(User).to receive(:find_by).with(email: params.dig(:params, :email)).and_return(user)
-      allow(user).to receive(:authenticated?).with(:reset, token).and_return(true)
+      allow(user).to receive(:authenticated?).with(:reset, params[:id]).and_return(true)
     end
 
     it 'creates new session successfully' do
-      operation = described_class.call(params)
+      operation = described_class.call(params: params)
 
-      expect(operation.success?).to be(true)
+      expect(operation.data[:msg]).to include(I18n.t('operations.updation.password_reset'))
     end
   end
 
-  describe 'validations' do
-    it 'validates blank params' do
-      operation = described_class.call({})
+  it 'validates blank params' do
+    operation = described_class.call({})
 
-      expect(operation.errors.full_message).to include(I18n.t('errors.blank_params'))
-    end
+    expect(operation.data[:msg]).to include(I18n.t('errors.blank_params'))
+    expect(operation.type).to be(:blank_params)
+  end
 
-    it 'validates an email', invalid_email: true do
-      operation = described_class.call(params)
+  it 'validates an email', invalid_email: true do
+    operation = described_class.call(params: params)
 
-      expect(operation.errors.full_message).to include(I18n.t('errors.invalid_params'))
-    end
+    expect(operation.data[:msg]).to include(I18n.t('errors.invalid_email'))
+    expect(operation.type).to be(:invalid_params)
+  end
 
-    it 'validates a wrong password', invalid_password: true do
-      operation = described_class.call(params)
+  it 'validates a wrong password', invalid_password: true do
+    operation = described_class.call(params: params)
 
-      expect(operation.errors.full_message).to include(I18n.t('dry_validation.errors.format'))
-    end
+    expect(operation.data[:msg]).to include(I18n.t('dry_validation.errors.format'))
+    expect(operation.type).to be(:invalid_params)
+  end
 
-    it 'validates password_similarity', invalid_confirm_password: true do
-      operation = described_class.call(params)
+  it 'validates password_similarity', invalid_confirm_password: true do
+    operation = described_class.call(params: params)
 
-      expect(operation.errors.full_message).to include(I18n.t('dry_validation.errors.password_similarity'))
-    end
+    expect(operation.data[:msg]).to include(I18n.t('dry_validation.errors.password_similarity'))
+  end
 
-    it 'validates password_exclusion', pass_eq_email: true do
-      operation = described_class.call(params)
+  it 'validates password_exclusion', pass_eq_email: true do
+    operation = described_class.call(params: params)
 
-      expect(operation.errors.full_message).to include(I18n.t('dry_validation.errors.password_exclusion'))
-    end
-
-    describe 'invalid_token' do
-      it 'validates activated user' do
-        operation = described_class.call(params)
-
-        expect(operation.errors.full_message).to include(I18n.t('errors.invalid_token'))
-      end
-    end
+    expect(operation.data[:msg]).to include(I18n.t('dry_validation.errors.password_exclusion'))
   end
 end

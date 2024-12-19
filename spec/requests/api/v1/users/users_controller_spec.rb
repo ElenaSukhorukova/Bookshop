@@ -43,9 +43,9 @@ RSpec.describe Api::V1::Users::UsersController, type: :controller do
 
       post :create, params: new_user_params
 
-      expect(response).to have_http_status(:bad_request)
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(response).to render_template(:new)
-      expect(subject).to set_flash[:danger]
+      expect(subject).to set_flash.now[:danger]
       expect(User.find_by(email: email).present?).to be(false)
     end
   end

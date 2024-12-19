@@ -1,62 +1,49 @@
 # frozen_string_literal: true
 
 module Users
-  class Updation < Base::Class
-    def call
-      return self unless valid?
+  class Updation < Base::MicroCase
+    attributes :params
 
-      ActiveRecord::Base.transaction do
-        params_to_update = {
-          password: params[:password],
-          password_confirmation: params[:password_confirmation]
-        }
+    def call!
+      return fail_result(type: :blank_params, msg: I18n.t('errors.blank_params')) if params.blank?
+      return fail_result(type: :invalid_params, msg: I18n.t('errors.invalid_email')) if user.blank?
 
-        user.errors.each { |error| errors.add(error.full_message) } unless user.update(params_to_update)
+      unless user.authenticated?(:reset, params[:id])
+        return fail_result(type: :invalid_params, msg: I18n.t('errors.invalid_token'))
       end
 
-      self
+      validation = validate_params
+
+      unless validation.success?
+        return fail_result(type: :invalid_params,
+                           msg: validation.errors(full: true).to_h.values.flatten.join('; '))
+      end
+
+      ActiveRecord::Base.transaction do
+        unless user.update(params_for_updation)
+          return fail_result(type: :invalid_params,
+                             msg: user.errors.full_messages.join('; '))
+        end
+      end
+
+      Success result: { user: user, msg: I18n.t('operations.updation.password_reset') }
     end
 
     private
 
-    def validate
-      validate_params_presence
-      validate_params
-      validate_user_presence
-      validate_user
-    end
-
-    def validate_params_presence
-      return if params.present?
-
-      errors.add(I18n.t('errors.blank_params'))
-    end
-
     def validate_params
-      validation = Validations::EditUserSchema.new.call(params)
-
-      return if validation.success?
-
-      validation.errors(full: true).to_h.each_value do |value|
-        errors.add(value)
-      end
-    end
-
-    def validate_user_presence
-      return if user.present?
-
-      errors.add(I18n.t('errors.invalid_params'))
-    end
-
-    def validate_user
-      return if user.blank?
-      return if user.authenticated?(:reset, params[:id])
-
-      errors.add(I18n.t('errors.invalid_token'))
+      Validations::EditUserSchema.new.call(params)
     end
 
     def user
       @user ||= User.find_by(email: params[:email]&.downcase)
+    end
+
+    def params_for_updation
+      {
+        password: params[:password],
+        password_confirmation: params[:password_confirmation]
+      }
     end
   end
 end

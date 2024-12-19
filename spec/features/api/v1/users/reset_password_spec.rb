@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Sessions', type: :feature do
+RSpec.describe 'ResetPassword', type: :feature do
   include_context 'when activated user is present'
   include_context 'when it needs an email and password'
 
@@ -41,7 +41,7 @@ RSpec.describe 'Sessions', type: :feature do
       end
       click_button I18n.t('views.password_resets.new.submit')
 
-      expect(page).to have_content I18n.t('api.v1.users.password_resets.create.check_email')
+      expect(page).to have_content I18n.t('operations.initiate_password_reset.check_email')
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe 'Sessions', type: :feature do
 
       click_button I18n.t('views.password_resets.edit.submit')
 
-      expect(page).to have_content I18n.t('api.v1.users.password_resets.update.password_reset')
+      expect(page).to have_content I18n.t('operations.updation.password_reset')
     end
   end
 end

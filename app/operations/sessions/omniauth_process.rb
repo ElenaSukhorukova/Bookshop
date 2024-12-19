@@ -1,6 +1,6 @@
 module Sessions
   class OmniauthProcess < Micro::Case
     flow Omniauth,
-         Users::Activation
+         Users::InitiateActivation
   end
 end

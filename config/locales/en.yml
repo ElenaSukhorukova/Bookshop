@@ -18,26 +18,24 @@ en:
     pass_reset_expired: Password reset has expired
     invalid_password_or_email: Invalid email or password
     unactivated_account: Your account is not activated. Please check your email for the activation link.
+    activation_error: "Invalid activation link. Please, try again in %{period} minutes"
+    invalid_activation_token: activation token is not valid
+    alredy_activated: User has been already activated. Please, sign in with your current password
 
   operations:
     created_user:
       check_email: Please, check your mail to activate your account
     authentication_process:
       successful_enter: Welcome to the Bookshop
+    initiate_password_reset:
+      check_email: Email with password reset instruction was sent
+    updation:
+      password_reset: Password has been reset
+    activation:
+      activated: Your account was activated
 
   api:
     v1:
-      users:
-        password_resets:
-          create:
-            check_email: Email with password reset instruction was sent
-          update:
-            password_reset: Password has been reset
-        account_activations:
-          edit:
-            activated: Your account was activated
-            activation_error: "Invalid activation link. Please, try again in %{period} minutes"
-
       external:
         store:
           shop_window:
