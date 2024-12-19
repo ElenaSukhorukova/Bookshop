@@ -39,9 +39,6 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
   end
 
   def omniauth
-    puts '---------------------------'
-    pp request.env['omniauth.auth']
-    puts '---------------------------'
     user = User.from_omniauth(request.env['omniauth.auth'])
 
     redirect_to(signin_path, danger: user.errors.full_messages.join('; ')) and return if user.new_record?
@@ -49,12 +46,12 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
     if user.activated?
       sign_in(user)
 
-      redirect root_path and return
-      # redirect new_user_profile_path(user) and return
-      # redirect_back_or(user) and return
+      redirect_back_or(root_path) and return
     end
 
-    user.organize_activation
+    User.transaction(isolation: :repeatable_read) do
+      user.initiate_activate_process
+    end
 
     redirect_to root_path, info: t('api.v1.users.users.create.check_email')
   end
