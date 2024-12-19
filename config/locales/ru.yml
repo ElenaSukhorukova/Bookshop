@@ -24,9 +24,9 @@ ru:
         password_resets:
           errors:
             invalid_token: Токен сброса пароля недействителен
+            invalid_email: Адрес электронной почты не найден
           create:
             check_email: Письмо с инструкцией по сбросу пароля было отправлено
-            invalid_email: Адрес электронной почты не найден
           update:
             password_reset: Пароль был сброшен
           check_expiration:
@@ -62,13 +62,16 @@ ru:
       edit:
         title: Обновление пароля
         submit: Обновить пароль
-    session:
+    sessions:
       new:
         title: Войти
         link: Я забыл свой пароль
     users:
       new:
         title: Новый пользователь
+    mfa_sessions:
+      new:
+        title: сеанс Google
     shared:
       navbar:
         sing_out: Выйти
@@ -80,6 +83,7 @@ ru:
       subject: Активация аккаунта
       title: Здравствуйте, %{email}
       click_on: Нажмите на ссылку, чтобы активировать свою учетную запись
+      link: Активировать аккаунт
     password_reset:
       subject: Сброс пароля
       title: Здравствуйте, %{email}

@@ -6,6 +6,10 @@ RSpec.describe UserMailer, '#account_activation' do
   let(:user) { create(:user) }
   let(:email) { described_class.with(user: user).account_activation }
 
+  before do
+    user.create_activate_digest
+  end
+
   it 'delivers to the user\'s email' do
     expect(email).to deliver_to(user.email)
   end

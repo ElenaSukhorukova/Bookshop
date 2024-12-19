@@ -30,7 +30,7 @@ RSpec.describe 'Sessions', type: :feature do
       end
       click_button I18n.t('views.password_resets.new.submit')
 
-      expect(page).to have_content I18n.t('api.v1.users.password_resets.create.invalid_email')
+      expect(page).to have_content I18n.t('api.v1.users.password_resets.errors.invalid_email')
     end
 
     it 'checks redirection and flash' do

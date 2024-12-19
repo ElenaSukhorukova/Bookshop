@@ -50,9 +50,6 @@ module Users
 
     def validate_user
       return if user.blank?
-
-      errors.add(I18n.t('api.v1.users.sessions.errors.unactivated_account')) unless user.activated?
-
       return if user.authenticated?(:reset, params[:id])
 
       errors.add(I18n.t('api.v1.users.password_resets.errors.invalid_token'))

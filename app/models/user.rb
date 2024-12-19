@@ -20,8 +20,6 @@
 # t.index ["email"], name: "unique_emails", unique: true
 
 class User < ApplicationRecord
-  acts_as_google_authenticated lookup_token: :mfa_secret, encrypt_secrets: true
-
   include User::Authorization
 
   attribute :remember_token, :string
@@ -45,7 +43,6 @@ class User < ApplicationRecord
   normalizes :email, with: ->(email) { email.strip.downcase }
 
   before_save :make_normalize
-  after_create :create_activate_digest
 
   private
 
