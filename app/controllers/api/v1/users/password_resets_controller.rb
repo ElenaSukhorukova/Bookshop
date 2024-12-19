@@ -1,44 +1,47 @@
 class Api::V1::Users::PasswordResetsController < Api::V1::ApplicationController
-  before_action :get_user, :check_expiration, only: %i[edit update]
-
   def new; end
 
   def create
-    operation = Users::PasswordReset.call(params: permit_params(:password_reset))
+    PasswordReset::InitiatePasswordReset
+      .call(params: permit_params(:password_reset))
+      .on_success { |result| redirect_to root_path, info: result[:msg] }
+      .on_failure do |result|
+        flash.now[:danger] = result[:msg]
 
-    redirect_to(root_path, info: t('.check_email')) and return if operation.success?
-
-    flash[:danger] = operation.errors.full_message
-
-    render :new, status: :unprocessable_entity
+        case result.type
+        when :unactivated_user
+          render :new, status: :bad_request
+        else
+          render :new, status: :unprocessable_entity
+        end
+      end
   end
 
-  def edit; end
+  def edit
+    PasswordReset::ValidateExpirationOfToken
+      .call(params: { id: params[:id] })
+      .on_failure { |result| redirect_to new_password_reset_path, danger: result[:msg] }
+      .on_success { |result| @user = result[:user] }
+  end
 
   def update
-    permitted_params = permit_params(:password_reset).merge(id: params[:id])
-    operation = Users::Updation.call(params: permitted_params)
+    operation = Users::Updation.call(params: permit_params(:password_reset).merge(id: params[:id]))
 
-    if operation.success?
-      sign_in(@user)
+    operation.on_failure do |result|
+      flash.now[:danger] = result[:msg]
 
-      redirect_to(root_path, success: t('.password_reset')) and return
+      case result.type
+      when :invalid_params
+        render :edit, status: :unprocessable_entity
+      else
+        render :edit, status: :bad_request
+      end
     end
 
-    flash[:danger] = operation.errors.full_message
+    operation.on_success do |result|
+      sign_in(result[:user])
 
-    render :edit, status: :unprocessable_entity
-  end
-
-  private
-
-  def get_user
-    @user = User.find_by_token_for(:reset_token, params[:id])
-  end
-
-  def check_expiration
-    return if @user.present?
-
-    redirect_to new_password_reset_path, danger: t('.error')
+      redirect_to root_path, success: result[:msg]
+    end
   end
 end

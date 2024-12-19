@@ -65,7 +65,7 @@ RSpec.describe Api::V1::Users::PasswordResetsController, type: :controller do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response).to render_template(:new)
-      expect(subject).to set_flash[:danger]
+      expect(subject).to set_flash.now[:danger]
       expect(user.reload.reset_digest.present?).to be(false)
     end
   end
@@ -99,7 +99,7 @@ RSpec.describe Api::V1::Users::PasswordResetsController, type: :controller do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response).to render_template(:edit)
-      expect(subject).to set_flash[:danger]
+      expect(subject).to set_flash.now[:danger]
       expect(user.authenticate(password)).not_to be(user)
     end
   end

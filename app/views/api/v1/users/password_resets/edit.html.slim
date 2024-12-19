@@ -7,6 +7,7 @@
 
     = form_for(:password_reset, url: password_reset_path(params[:id]), method: 'put', id: 'edit_password') do |f|
       = f.hidden_field :email, value: @user.email
+      = f.hidden_field :id, value: params[:id]
       div
         = f.label :password, t('views.forms.password')
         = f.password_field :password

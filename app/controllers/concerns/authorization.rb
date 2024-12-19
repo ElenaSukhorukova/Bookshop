@@ -2,6 +2,7 @@ module Authorization
   extend ActiveSupport::Concern
 
   EXPIRING_TURM = 24.hours
+  REMEMBER_VALUE = '1'
 
   included do # rubocop:disable Metrics/BlockLength
     include ActionController::Cookies
@@ -56,6 +57,10 @@ module Authorization
     def sign_out_by_session
       session.delete(:session_uid)
       session.delete(:expires_in)
+    end
+
+    def remembering_process(user, remember_me)
+      remember_me == REMEMBER_VALUE ? remember(user) : forget(user)
     end
 
     def remember(user)

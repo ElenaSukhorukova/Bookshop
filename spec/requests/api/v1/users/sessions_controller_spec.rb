@@ -48,7 +48,7 @@ RSpec.describe Api::V1::Users::SessionsController, type: :controller do
 
       expect(response).to have_http_status(:unauthorized)
       expect(response).to render_template(:new)
-      expect(subject).to set_flash[:danger]
+      expect(subject).to set_flash.now[:danger]
       expect(user.sessions.last).to be(nil)
     end
   end
