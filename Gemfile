@@ -42,6 +42,8 @@ gem 'rails-i18n'
 # dry-rb
 gem 'dry-rails', '~> 0.3'
 
+gem 'u-case', '~> 4.5.1'
+
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'

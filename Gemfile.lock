@@ -207,6 +207,7 @@ GEM
     json (2.7.2)
     jwt (2.9.3)
       base64
+    kind (5.10.0)
     language_server-protocol (3.17.0.3)
     launchy (3.0.1)
       addressable (~> 2.8)
@@ -452,6 +453,11 @@ GEM
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2024.1)
       tzinfo (>= 1.0.0)
+    u-attributes (2.8.0)
+      kind (>= 4.0, < 6.0)
+    u-case (4.5.2)
+      kind (>= 5.6, < 6.0)
+      u-attributes (>= 2.7, < 3.0)
     unicode-display_width (2.5.0)
     uri (1.0.2)
     version_gem (1.1.4)
@@ -516,6 +522,7 @@ DEPENDENCIES
   strong_migrations
   turbo-rails
   tzinfo-data
+  u-case (~> 4.5.1)
   web-console
 
 RUBY VERSION

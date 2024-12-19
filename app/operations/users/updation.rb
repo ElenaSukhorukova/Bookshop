@@ -29,7 +29,7 @@ module Users
     def validate_params_presence
       return if params.present?
 
-      errors.add(I18n.t('api.v1.users.users.errors.blank_params'))
+      errors.add(I18n.t('errors.blank_params'))
     end
 
     def validate_params
@@ -45,14 +45,14 @@ module Users
     def validate_user_presence
       return if user.present?
 
-      errors.add(I18n.t('api.v1.users.users.errors.invalid_params'))
+      errors.add(I18n.t('errors.invalid_params'))
     end
 
     def validate_user
       return if user.blank?
       return if user.authenticated?(:reset, params[:id])
 
-      errors.add(I18n.t('api.v1.users.password_resets.errors.invalid_token'))
+      errors.add(I18n.t('errors.invalid_token'))
     end
 
     def user

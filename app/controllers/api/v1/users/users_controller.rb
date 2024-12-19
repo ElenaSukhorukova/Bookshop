@@ -1,22 +1,25 @@
 # frozen_string_literal: true
 
 class Api::V1::Users::UsersController < Api::V1::ApplicationController
-  before_action :store_location, only: :new
-
   def new
     @user = User.new
   end
 
   def create
-    operation = Users::Creation.call(params: permit_params(:user))
-    @user = operation.user
+    operation = Users::CreationProcess.call(params: permit_params(:user))
+    @user = operation[:user]
 
-    unless operation.success?
-      flash[:danger] = operation.errors.full_message
+    operation
+      .on_success { |result| redirect_to root_path, info: result[:msg] }
+      .on_failure do |result|
+        flash.now[:danger] = result[:msg]
 
-      render :new, status: :bad_request and return
-    end
-
-    redirect_back_or(root_path, info: t('.check_email'))
+        case result.type
+        when :invalid_params
+          render :new, status: :unprocessable_entity
+        else
+          render :new, status: :bad_request
+        end
+      end
   end
 end

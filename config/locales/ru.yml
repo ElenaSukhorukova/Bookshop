@@ -18,36 +18,34 @@ ru:
       password_similarity: должeн быть таким же, как пароль
       unsupported_role: не поддерживается в этом запросе
 
+  errors:
+    uncatched_error: Что-то пошло не так
+    invalid_token: Токен сброса пароля недействителен
+    invalid_email: Адрес электронной почты не найден
+    blank_params: параметры пусты
+    invalid_params: параметры недействительны
+    pass_reset_expired: Срок действия сброса пароля истек
+    invalid_password_or_email: Неверный адрес электронной почты или пароль
+    unactivated_account: Ваша учетная запись не активирована. Проверьте свою электронную почту на наличие ссылки для активации.
+
+  operations:
+    created_user:
+      check_email: Пожалуйста, проверьте свою почту, чтобы активировать свой аккаунт.
+    authentication_process:
+      successful_enter: Добро пожаловать в книжный магазин
+
   api:
     v1:
       users:
         password_resets:
-          errors:
-            invalid_token: Токен сброса пароля недействителен
-            invalid_email: Адрес электронной почты не найден
           create:
             check_email: Письмо с инструкцией по сбросу пароля было отправлено
           update:
             password_reset: Пароль был сброшен
-          check_expiration:
-            error: Срок действия сброса пароля истек
         account_activations:
           edit:
             activated: Ваш аккаунт был активирован
             activation_error: "Неверная ссылка активации. Пожалуйста, попробуйте снова через %{period} минут"
-        users:
-          errors:
-            blank_params: параметры пусты
-            invalid_params: параметры недействительны
-          create:
-            check_email: Please, check your mail to activate your account
-        sessions:
-          errors:
-            blank_params: параметры пусты
-            invalid_password_or_email: Неверный адрес электронной почты или пароль
-            unactivated_account: Ваша учетная запись не активирована. Проверьте свою электронную почту на наличие ссылки для активации.
-          create:
-            successful_enter: Добро пожаловать в книжный магазин
 
   views:
     forms:

@@ -9,35 +9,34 @@ en:
       password_similarity: should be the same as password
       unsupported_role: is not supported through this request
 
+  errors:
+    uncatched_error: Something went wrong
+    invalid_token: Reset token of the password is invalid
+    invalid_email: Email address was not found
+    blank_params: params is blank
+    invalid_params: params is invalid
+    pass_reset_expired: Password reset has expired
+    invalid_password_or_email: Invalid email or password
+    unactivated_account: Your account is not activated. Please check your email for the activation link.
+
+  operations:
+    created_user:
+      check_email: Please, check your mail to activate your account
+    authentication_process:
+      successful_enter: Welcome to the Bookshop
+
   api:
     v1:
       users:
         password_resets:
-          errors:
-            invalid_token: Reset token of the password is invalid
-            invalid_email: Email address was not found
           create:
             check_email: Email with password reset instruction was sent
           update:
             password_reset: Password has been reset
-          check_expiration:
-            error: Password reset has expired
         account_activations:
           edit:
             activated: Your account was activated
             activation_error: "Invalid activation link. Please, try again in %{period} minutes"
-        users:
-          errors:
-            blank_params: params is blank
-            invalid_params: params is invalid
-          create:
-            check_email: Please, check your mail to activate your account
-        sessions:
-          errors:
-            invalid_password_or_email: Invalid email or password
-            unactivated_account: Your account is not activated. Please check your email for the activation link.
-          create:
-            successful_enter: Welcome to the Bookshop
 
       external:
         store:

@@ -49,13 +49,13 @@ RSpec.describe Users::Updation do
     it 'validates blank params' do
       operation = described_class.call({})
 
-      expect(operation.errors.full_message).to include(I18n.t('api.v1.users.users.errors.blank_params'))
+      expect(operation.errors.full_message).to include(I18n.t('errors.blank_params'))
     end
 
     it 'validates an email', invalid_email: true do
       operation = described_class.call(params)
 
-      expect(operation.errors.full_message).to include(I18n.t('api.v1.users.users.errors.invalid_params'))
+      expect(operation.errors.full_message).to include(I18n.t('errors.invalid_params'))
     end
 
     it 'validates a wrong password', invalid_password: true do
@@ -80,7 +80,7 @@ RSpec.describe Users::Updation do
       it 'validates activated user' do
         operation = described_class.call(params)
 
-        expect(operation.errors.full_message).to include(I18n.t('api.v1.users.password_resets.errors.invalid_token'))
+        expect(operation.errors.full_message).to include(I18n.t('errors.invalid_token'))
       end
     end
   end

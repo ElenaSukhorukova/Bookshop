@@ -24,13 +24,13 @@ RSpec.describe Users::PasswordReset do
     it 'validates an email', wrong_email: true do
       operation = described_class.call(params)
 
-      expect(operation.errors.full_message).to include(I18n.t('api.v1.users.password_resets.errors.invalid_email'))
+      expect(operation.errors.full_message).to include(I18n.t('errors.invalid_email'))
     end
 
     it 'validates blank params' do
       operation = described_class.call({})
 
-      expect(operation.errors.full_message).to include(I18n.t('api.v1.users.users.errors.blank_params'))
+      expect(operation.errors.full_message).to include(I18n.t('errors.blank_params'))
     end
 
     describe 'unactivated_user' do
@@ -41,7 +41,7 @@ RSpec.describe Users::PasswordReset do
       it 'validates activated user' do
         operation = described_class.call(params)
 
-        expect(operation.errors.full_message).to include(I18n.t('api.v1.users.sessions.errors.unactivated_account'))
+        expect(operation.errors.full_message).to include(I18n.t('errors.unactivated_account'))
       end
     end
   end

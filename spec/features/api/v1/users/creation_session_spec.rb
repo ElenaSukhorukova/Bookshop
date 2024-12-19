@@ -18,7 +18,7 @@ RSpec.describe 'Sessions', type: :feature do
 
       click_button 'Create Session'
 
-      expect(page).to have_content I18n.t('api.v1.users.sessions.errors.invalid_password_or_email')
+      expect(page).to have_content I18n.t('errors.invalid_password_or_email')
     end
 
     it 'checks redirection and flash' do
@@ -32,7 +32,7 @@ RSpec.describe 'Sessions', type: :feature do
 
       click_button 'Create Session'
 
-      expect(page).to have_content I18n.t('api.v1.users.sessions.create.successful_enter')
+      expect(page).to have_content I18n.t('operations.authentication_process.successful_enter')
     end
 
     it 'checks reset password link' do

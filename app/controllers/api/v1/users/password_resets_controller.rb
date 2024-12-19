@@ -39,6 +39,6 @@ class Api::V1::Users::PasswordResetsController < Api::V1::ApplicationController
   def check_expiration
     return if @user.present?
 
-    redirect_to new_password_reset_path, danger: t('.error')
+    redirect_to new_password_reset_path, danger: t('errors.pass_reset_expired')
   end
 end

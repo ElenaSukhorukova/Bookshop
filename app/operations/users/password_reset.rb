@@ -23,20 +23,20 @@ module Users
     def validate_params_presence
       return if params.present?
 
-      errors.add(I18n.t('api.v1.users.users.errors.blank_params'))
+      errors.add(I18n.t('errors.blank_params'))
     end
 
     def validate_user_presence
       return if user.present?
 
-      errors.add(I18n.t('api.v1.users.password_resets.errors.invalid_email'))
+      errors.add(I18n.t('errors.invalid_email'))
     end
 
     def validate_user_activation
       return if user.blank?
       return if user.activated?
 
-      errors.add(I18n.t('api.v1.users.sessions.errors.unactivated_account'))
+      errors.add(I18n.t('errors.unactivated_account'))
     end
 
     def user

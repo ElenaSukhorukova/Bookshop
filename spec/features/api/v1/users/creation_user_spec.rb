@@ -31,7 +31,7 @@ RSpec.describe 'Users', type: :feature do
 
       click_button 'Create User'
 
-      expect(page).to have_content I18n.t('api.v1.users.users.create.check_email')
+      expect(page).to have_content I18n.t('operations.created_user.check_email')
     end
   end
 end
