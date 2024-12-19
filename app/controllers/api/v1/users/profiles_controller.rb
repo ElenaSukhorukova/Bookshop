@@ -1,23 +1,21 @@
 class Api::V1::Users::ProfilesController < Api::V1::ApplicationController
-  #   before_action :define_user
+  before_action :define_user
 
   def new
-    #     @profile = People::Profile.new(profilable: People::Customer.new, user: @user)
-    #     authorize(@profile)
+    @profile = @user.build_profile
   end
 
-  #   # def create; end
+  def create
+    oparation = Profiles::CreatedProfile
+                .call(params: permit_params(:profile).merge(user_id: @user.id))
+  end
   #   # def edit; end
   #   # def update; end
   #   # def destroy; end
 
-  #   private
+  private
 
-  #   def define_user
-  #     @user = current_user
-  #   end
-
-  #   def profile_params
-  #     params.require(:profile).permit(:birth_day, :first_name, :last_name, :phone, :terms_of_service)
-  #   end
+  def define_user
+    @user = current_user
+  end
 end

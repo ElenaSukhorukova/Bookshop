@@ -41,13 +41,13 @@ class Api::V1::Users::SessionsController < Api::V1::ApplicationController
   end
 
   def omniauth
-    Sessions::Omniauth
+    Sessions::OmniauthProcess
       .call(params: request.env['omniauth.auth'])
       .on_failure { |result| redirect_to signin_path, danger: result[:msg] }
       .on_success do |result|
         sign_in(result[:user]) if result[:activated]
 
-        endredirect_to root_path, info: result[:msg]
+        redirect_to root_path, info: result[:msg]
       end
   end
 end

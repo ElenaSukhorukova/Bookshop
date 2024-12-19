@@ -34,21 +34,18 @@ en:
     activation:
       activated: Your account was activated
 
-  api:
-    v1:
-      external:
-        store:
-          shop_window:
-            title: Shop Window
-            greeting: Welcome to Bookstore
-            goods: Our goods
-
   views:
     forms:
       email: Email
       password: Password
       password_confirmation: Pasword confirmation
       remember_me: Remember me on this computer
+      birthday: Birthday
+      first_name: First name
+      last_name: Last name
+      phone_number: Phone number
+      terms_of_service: I agree with terms of the platform
+      terms: Terms
     password_resets:
       new:
         title: Reset password
@@ -71,6 +68,11 @@ en:
         sing_out: Sing out
         sing_in: Sing in
         sing_up: Sing up
+        profile: Profile
+        new_profile: Create profile
+    profiles:
+      new:
+        title: A new profile
 
   user_mailer:
     account_activation:

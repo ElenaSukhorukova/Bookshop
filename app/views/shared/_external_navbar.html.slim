@@ -13,6 +13,12 @@ header
           div#collapse-sign.menu__collapse-content.hidden
             ul.menu__collapse-content__list
               - if current_user.present?
+                - if current_user.profile && current_user.profile.persisted?
+                  li.menu__collapse-content__list__item
+                    = link_to t('views.shared.navbar.profile'), profile_path(current_user.profile), class: "menu__link menu__link_black"
+                - else
+                  li.menu__collapse-content__list__item
+                    = link_to t('views.shared.navbar.new_profile'), new_user_profile_path(current_user), class: "menu__link menu__link_black"
                 li.menu__collapse-content__list__item
                   = button_to t('views.shared.navbar.sing_out'), signout_path, class: "menu__link menu__link_black",
                     data: { turbo: false }
@@ -21,6 +27,7 @@ header
                   = link_to t('views.shared.navbar.sing_in'), signin_path, class: "menu__link menu__link_black"
                 li.menu__collapse-content__list__item
                   = link_to t('views.shared.navbar.sing_up'), new_user_path, class: "menu__link menu__link_black"
+
         li.menu__item
           = link_to '/', 'data-target': 'collapse-language', class: 'collapse' do
             i.fa-solid.fa-language

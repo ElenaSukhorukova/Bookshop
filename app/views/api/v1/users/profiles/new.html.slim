@@ -1,17 +1,26 @@
-/ - content_for :title do
-/   | A new profile
+- content_for :title do
+  = t('views.profiles.new.title')
 
-/ = form_for(@profile, url: user_customers_path(@user)) do |f|
-/   div
-/     = render partial: 'shared/errors', locals: { model: @user }
-/   div
-/     = f.label :email, "Email"
-/     = f.email_field :email
-/   / div
-/   /   = f.label :password, "Pasword"
-/   /   = f.password_field :password
-/   / div
-/   /   = f.check_box :remember_me
-/   /   = f.label :remember_me, "Remember me on this computer"
-/   div
-/     = f.submit
+.container
+  section.main__block
+    h1.header = t('views.profiles.new.title')
+
+    = form_with url: new_user_profile_path(@user), id: 'new_profile' do |f|
+      div
+        = f.label :birthday, t('views.forms.birthday'), required: true
+        = f.date_field :birthday
+      div
+        = f.label :first_name, t('views.forms.first_name'), required: true
+        = f.text_field :first_name
+      div
+        = f.label :first_name, t('views.forms.last_name'), required: true
+        = f.text_field :first_name
+      div
+        = f.label :phone_number, t('views.forms.phone_number'), required: true
+        = f.telephone_field :phone_number
+      div
+        = f.label :terms_of_service, t('views.forms.terms_of_service')
+        = f.check_box :terms_of_service
+        = link_to t('views.forms.terms'), '/'
+      div
+        = f.submit

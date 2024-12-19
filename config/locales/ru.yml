@@ -40,13 +40,8 @@ ru:
       check_email: Письмо с инструкцией по сбросу пароля было отправлено
     updation:
       password_reset: Пароль был сброшен
-
-  api:
-    v1:
-      users:
-        account_activations:
-          edit:
-            activated: Ваш аккаунт был активирован
+    activation:
+      activated: Ваш аккаунт был активирован
 
   views:
     forms:
@@ -54,6 +49,12 @@ ru:
       password: Пароль
       password_confirmation: Подтверждение пароля
       remember_me: Запомнить меня на этом компьюторе
+      birthday: День рождения
+      first_name: Имя
+      last_name: Фамилия
+      phone_number: Телефон
+      terms_of_service: Я согласен с условиями платформы
+      terms: Условия
     password_resets:
       new:
         title: Сбросить пароль
@@ -76,6 +77,11 @@ ru:
         sing_out: Выйти
         sing_in: Войти
         sing_up: Зарегистрироваться
+        profile: Profile
+        new_profile: Create profile
+    profiles:
+      new:
+        title: Новый профиль
 
   user_mailer:
     account_activation:

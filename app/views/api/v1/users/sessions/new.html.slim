@@ -7,10 +7,10 @@
 
     = form_with url: signin_path, model: @session, id: 'new_session' do |f|
       div
-        = f.label :email, t('views.forms.email')
+        = f.label :email, t('views.forms.email'), required: true
         = f.email_field :email
       div
-        = f.label :password, t('views.forms.password')
+        = f.label :password, t('views.forms.password'), required: true
         = f.password_field :password
       div
         = f.check_box :remember_me
