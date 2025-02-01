@@ -1,16 +1,5 @@
 ARG RUBY_VERSION=3.0.2
-FROM ruby:3.0.2-bullseye
-
-ARG DOCKER_USER=dockeruser
-ARG DOCKER_GROUP=dockergroup
-
-# Create a custom user with UID 1234 and GID 1234
-RUN groupadd -g 1234 $DOCKER_GROUP && \
-    useradd -m -u 1234 -g $DOCKER_GROUP $DOCKER_USER && \
-    usermod -aG sudo $DOCKER_USER
-
-# switch to the user
-# USER $DOCKER_USER
+FROM ruby:$RUBY_VERSION-bullseye
 
 # Install dependencies
 RUN apt-get clean all && \
@@ -38,11 +27,8 @@ RUN apt-get clean all && \
     file \
     nano
 
-# Add permissions for the user
-RUN mkdir /app
-#&& chown -R dockeruser:dockergroup /app
-
 # Set the working directory
+RUN mkdir /app
 WORKDIR /app
 
 # Copy the Gemfile and Gemfile.lock
@@ -66,4 +52,5 @@ ARG DEFAULT_PORT 3000
 EXPOSE ${DEFAULT_PORT}
 
 # Command to run the server
+# CMD ['/bin/sh', '-c', 'psql -U postgres -c "CREATE ROLE $${DB_USER} LOGIN PASSWORD $${DB_PASS};"']
 CMD ["rails", "server", "-b", "0.0.0.0"]

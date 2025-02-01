@@ -18,11 +18,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - '5433:5432'
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: ${POSTGRES_HOST_AUTH_METHOD}
 
   business:
+    image: business:latest
     build: ./business
+    restart: always
     ports:
       - '3000:3000'
     volumes:
@@ -33,10 +33,11 @@ services:
       DB_PASS: ${DB_PASS}
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
     depends_on:
-      - postgresql
       - redis
+      - postgresql
 
-  buisness_sidekiq:
+  buisness-sidekiq:
+    image: buisness-sidekiq:latest
     build: ./business
     command: bundle exec sidekiq
     volumes:
@@ -49,19 +50,34 @@ services:
     depends_on:
       - redis
 
-  # core:
-  #   build: ./core
-  #   ports:
-  #     - '3000:3000'
-  #   volumes:
-  #     - .:/docker/app
-  #   environment:
-  #     RAILS_ENV: ${RAILS_ENV}
-  #     DB_USER: ${DB_USER}
-  #     DB_PASS: ${DB_PASS}
-  #   depends_on:
-  #     - db
-  #     - redis
+  business-front:
+    image: business-front:latest
+    build: ./business-front
+    ports:
+      - "5000:3000"
+    volumes:
+     - .:/business-front
+     - ./business-front/node_modules:/business-front/node_modules
+    environment:
+      NODE_ENV: development
+    stdin_open: true
+    tty: true
+    command: npm start
+
+  core:
+    image: core
+    build: ./core
+    ports:
+      - '4000:3000'
+    volumes:
+      - .:/core
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+    depends_on:
+      - postgresql
+      - redis
 
 volumes:
   postgres_data:
